@@ -79,13 +79,19 @@
             "file": "public\\scripts\\common\\Helper.js",
             "line": 10,
             "description": "This method will check to see if a give object is an array or not.<br/>\nWe first try to see if we have the Array.isArray and if not we will add polyfill to support it.<br/>",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "- The data we want to check if its Array or not"
+                }
+            ],
             "itemtype": "method",
             "name": "isArray",
             "class": "Helper"
         },
         {
             "file": "public\\scripts\\common\\Helper.js",
-            "line": 20,
+            "line": 22,
             "description": "Check to see if given object is valid JSON.<br/>\nTODO: Make this more efficient. !!!!!",
             "itemtype": "method",
             "name": "isJson",

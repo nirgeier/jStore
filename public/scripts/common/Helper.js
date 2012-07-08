@@ -11,6 +11,8 @@ var Helper = {
      * This method will check to see if a give object is an array or not.<br/>
      * We first try to see if we have the Array.isArray and if not we will add polyfill to support it.<br/>
      *
+     * @param obj - The data we want to check if its Array or not
+     *
      * @method isArray
      */
     isArray:Array.isArray || function (obj) {
@@ -37,7 +39,7 @@ var Helper = {
                     return false;
                 }
                 return true;
-                // no need for break here.
+            // no need for break here.
             case 'object':
                 try {
                     JSON.parse(JSON.stringify(data));
