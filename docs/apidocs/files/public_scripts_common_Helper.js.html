@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public\scripts\common\Helper.js - jStorage</title>
+    <title>public&#x2F;scripts&#x2F;common&#x2F;Helper.js - jStorage</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -86,64 +86,70 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: public\scripts\common\Helper.js</h1>
+                        <h1 class="file-heading">File: public&#x2F;scripts&#x2F;common&#x2F;Helper.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-&#x2F;**
- * This class will contain helper methods.&lt;br&#x2F;&gt;
- * All the methods should be static and
- *
- * @class Helper
- *&#x2F;
+if (typeof jStorage === &#x27;undefined&#x27;) {
+    jStorage = {};
+}
 
-var Helper = {
+!function (ns) {
 
     &#x2F;**
-     * This method will check to see if a give object is an array or not.&lt;br&#x2F;&gt;
-     * We first try to see if we have the Array.isArray and if not we will add polyfill to support it.&lt;br&#x2F;&gt;
+     * This class will contain helper methods.&lt;br&#x2F;&gt;
+     * All the methods should be static and
      *
-     * @param obj - The data we want to check if its Array or not
-     *
-     * @method isArray
+     * @class Helper
      *&#x2F;
-    isArray:Array.isArray || function (obj) {
-        return Object.prototype.toString.call(obj) === &#x27;[object Array]&#x27;
-    },
 
-    &#x2F;**
-     * Check to see if given object is valid JSON.&lt;br&#x2F;&gt;
-     * TODO: Make this more efficient. !!!!!
-     *
-     * @method isJson
-     *
-     * @param data - The data we want to check if its a valid JSON or not
-     * @return {Boolean}
-     *&#x2F;
-    isJSON:function (data) {
+    var Helper = {
 
-        &#x2F;&#x2F; Try to convert the string to JSON
-        switch (typeof data) {
-            case &#x27;string&#x27;:
-                try {
-                    JSON.parse(data);
-                } catch (e) {
-                    return false;
-                }
-                return true;
-            &#x2F;&#x2F; no need for break here.
-            case &#x27;object&#x27;:
-                try {
-                    JSON.parse(JSON.stringify(data));
-                } catch (e) {
-                    return false;
-                }
-                return true;
-                break;
+        &#x2F;**
+         * This method will check to see if a give object is an array or not.&lt;br&#x2F;&gt;
+         * We first try to see if we have the Array.isArray and if not we will add polyfill to support it.&lt;br&#x2F;&gt;
+         *
+         * @param obj - The data we want to check if its Array or not
+         *
+         * @method isArray
+         *&#x2F;
+        isArray:Array.isArray || function (obj) {
+            return Object.prototype.toString.call(obj) === &#x27;[object Array]&#x27;
+        },
+
+        &#x2F;**
+         * Check to see if given object is valid JSON.&lt;br&#x2F;&gt;
+         * TODO: Make this more efficient. !!!!!
+         *
+         * @method isJson
+         *
+         * @param data - The data we want to check if its a valid JSON or not
+         * @return {Boolean}
+         *&#x2F;
+        isJSON:function (data) {
+
+            &#x2F;&#x2F; Try to convert the string to JSON
+            switch (typeof data) {
+                case &#x27;string&#x27;:
+                    try {
+                        JSON.parse(data);
+                    } catch (e) {
+                        return false;
+                    }
+                    return true;
+                &#x2F;&#x2F; no need for break here.
+                case &#x27;object&#x27;:
+                    try {
+                        JSON.parse(JSON.stringify(data));
+                    } catch (e) {
+                        return false;
+                    }
+                    return true;
+                    break;
+            }
         }
-    }
-};
-
+    };
+}.apply(jStorage, [jStorage]);
     </pre>
 </div>
 

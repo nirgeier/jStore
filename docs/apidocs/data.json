@@ -6,8 +6,22 @@
         "url": "http://example.com/"
     },
     "files": {
-        "public\\scripts\\common\\Helper.js": {
-            "name": "public\\scripts\\common\\Helper.js",
+        "Source/Lawnchair.js": {
+            "name": "Source/Lawnchair.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "Source/dom.js": {
+            "name": "Source/dom.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "public/scripts/common/Helper.js": {
+            "name": "public/scripts/common/Helper.js",
             "modules": {},
             "classes": {
                 "Helper": 1
@@ -15,8 +29,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "public\\scripts\\drivers\\DriverMemory.js": {
-            "name": "public\\scripts\\drivers\\DriverMemory.js",
+        "public/scripts/drivers/DriverMemory.js": {
+            "name": "public/scripts/drivers/DriverMemory.js",
             "modules": {},
             "classes": {
                 "Memory": 1
@@ -24,8 +38,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "public\\scripts\\drivers\\DriverStub.js": {
-            "name": "public\\scripts\\drivers\\DriverStub.js",
+        "public/scripts/drivers/DriverStub.js": {
+            "name": "public/scripts/drivers/DriverStub.js",
             "modules": {},
             "classes": {
                 "DriverStub": 1
@@ -44,8 +58,8 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "public\\scripts\\common\\Helper.js",
-            "line": 1,
+            "file": "public/scripts/common/Helper.js",
+            "line": 7,
             "description": "This class will contain helper methods.<br/>\nAll the methods should be static and"
         },
         "Memory": {
@@ -56,10 +70,11 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "public\\scripts\\drivers\\DriverMemory.js",
-            "line": 1,
+            "file": "public/scripts/drivers/DriverMemory.js",
+            "line": 7,
             "description": "This class is the implementation of InMemory storage.<br/>\nThe InMemory storage store all the data as Object (JSON) as key:value.<br/>\n<br/>\n\nTODO: Right now we have unknown memory limitation<br/>",
-            "extends": "DriverMemory"
+            "extends": "DriverMemory",
+            "is_constructor": 1
         },
         "DriverStub": {
             "name": "DriverStub",
@@ -69,15 +84,51 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 1,
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 7,
             "description": "This class is the API for the framework drivers.<br/>\nEach Driver must implement all the public methods of this class."
         }
     },
     "classitems": [
         {
-            "file": "public\\scripts\\common\\Helper.js",
-            "line": 10,
+            "file": "Source/Lawnchair.js",
+            "line": 1,
+            "description": "Lawnchair!\n---\nclientside json store",
+            "class": "Helper"
+        },
+        {
+            "file": "Source/Lawnchair.js",
+            "line": 63,
+            "description": "queues an adapter for mixin\n===\n- ensures an adapter conforms to a specific interface",
+            "class": "Helper"
+        },
+        {
+            "file": "Source/Lawnchair.js",
+            "line": 87,
+            "description": "generic shallow extension for plugins\n===\n- if an init method is found it registers it to be called when the lawnchair is inited\n- yes we could use hasOwnProp but nobody here is an asshole",
+            "class": "Helper"
+        },
+        {
+            "file": "Source/Lawnchair.js",
+            "line": 98,
+            "description": "helpers",
+            "class": "Helper"
+        },
+        {
+            "file": "Source/Lawnchair.js",
+            "line": 108,
+            "description": "this code exists for ie8... for more background see:\nhttp://www.flickr.com/photos/westcoastlogic/5955365742/in/photostream",
+            "class": "Helper"
+        },
+        {
+            "file": "Source/dom.js",
+            "line": 1,
+            "description": "dom storage adapter\n===\n- originally authored by Joseph Pecoraro",
+            "class": "Helper"
+        },
+        {
+            "file": "public/scripts/common/Helper.js",
+            "line": 16,
             "description": "This method will check to see if a give object is an array or not.<br/>\nWe first try to see if we have the Array.isArray and if not we will add polyfill to support it.<br/>",
             "params": [
                 {
@@ -90,8 +141,8 @@
             "class": "Helper"
         },
         {
-            "file": "public\\scripts\\common\\Helper.js",
-            "line": 22,
+            "file": "public/scripts/common/Helper.js",
+            "line": 28,
             "description": "Check to see if given object is valid JSON.<br/>\nTODO: Make this more efficient. !!!!!",
             "itemtype": "method",
             "name": "isJson",
@@ -108,18 +159,8 @@
             "class": "Helper"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverMemory.js",
-            "line": 14,
-            "description": "The driver name.",
-            "itemtype": "property",
-            "name": "name",
-            "type": "{String}",
-            "default": "'Memory'",
-            "class": "Memory"
-        },
-        {
-            "file": "public\\scripts\\drivers\\DriverMemory.js",
-            "line": 23,
+            "file": "public/scripts/drivers/DriverMemory.js",
+            "line": 24,
             "description": "The InMemory storage use Object (JSON) to store all the data.<br/>",
             "itemtype": "property",
             "name": "this._storage",
@@ -129,8 +170,18 @@
             "class": "Memory"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 10,
+            "file": "public/scripts/drivers/DriverMemory.js",
+            "line": 33,
+            "description": "The driver name.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "{String}",
+            "default": "'Memory'",
+            "class": "Memory"
+        },
+        {
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 16,
             "description": "The driver name.",
             "itemtype": "property",
             "name": "name",
@@ -139,8 +190,8 @@
             "class": "DriverStub"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 19,
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 25,
             "description": "Delete all the records from the storage",
             "itemtype": "method",
             "name": "clear",
@@ -155,8 +206,8 @@
             "class": "DriverStub"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 29,
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 35,
             "description": "Run the callback method on all the storage items.<br/>\n\n<pre><code>\n  each(function callback(String key, String value)\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "each",
@@ -170,8 +221,8 @@
             "class": "DriverStub"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 45,
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 51,
             "description": "Check to see if the given key already exist in the Storage",
             "itemtype": "method",
             "name": "exist",
@@ -189,8 +240,8 @@
             "class": "DriverStub"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 56,
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 62,
             "description": "Retrieve item or items from the storage.<br/>\n\n<pre><code>\n  get(String key, function callback(String key, String value)  - fetch single record\n  get(Array keys, function callback(String key, Array values)  - fetch several records\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "get",
@@ -216,8 +267,8 @@
             "class": "DriverStub"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 77,
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 83,
             "description": "get all the storage items.<br/>\n\n<pre><code>\n  each(function callback(JSON records))\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "getAll",
@@ -231,8 +282,8 @@
             "class": "DriverStub"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 92,
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 98,
             "description": "get all the storage keys.<br/>\n\n<pre><code>\n  each(function callback(Array keys))\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "getKeys",
@@ -246,8 +297,16 @@
             "class": "DriverStub"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 107,
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 113,
+            "description": "This method will be init the Driver.<br/>\nAny initialization code should be place here",
+            "itemtype": "method",
+            "name": "init",
+            "class": "DriverStub"
+        },
+        {
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 123,
             "description": "Remove items from the storage\n\n<pre><code>\n  remove(String key)  - remove single record\n  remove(Array keys)  - remove all the records with the given ids\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "remove",
@@ -268,8 +327,8 @@
             "class": "DriverStub"
         },
         {
-            "file": "public\\scripts\\drivers\\DriverStub.js",
-            "line": 125,
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 141,
             "description": "Add a new item(s) to the storage.<br/>\nIf the key is already in the store it will be updated.<br/>\nThe method accept <b>any</b> of the following:\n<pre><code>\n    set(String key, String value) - Simple key value pairs\n    set(JSON   pairs)             - Collection of keys and values\n    set(Array  pairs)             - Array of key value pairs\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "set",
@@ -293,6 +352,17 @@
                     "optional": true
                 }
             ],
+            "class": "DriverStub"
+        },
+        {
+            "file": "public/scripts/drivers/DriverStub.js",
+            "line": 164,
+            "description": "This method will check to see if driver is available for the current browser.<br/>",
+            "itemtype": "method",
+            "name": "test",
+            "return": {
+                "description": "boolean"
+            },
             "class": "DriverStub"
         }
     ]

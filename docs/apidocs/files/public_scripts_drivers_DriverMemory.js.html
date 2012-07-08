@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>public\scripts\drivers\DriverMemory.js - jStorage</title>
+    <title>public&#x2F;scripts&#x2F;drivers&#x2F;DriverMemory.js - jStorage</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -86,122 +86,135 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: public\scripts\drivers\DriverMemory.js</h1>
+                        <h1 class="file-heading">File: public&#x2F;scripts&#x2F;drivers&#x2F;DriverMemory.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-&#x2F;**
- * This class is the implementation of InMemory storage.&lt;br&#x2F;&gt;
- * The InMemory storage store all the data as Object (JSON) as key:value.&lt;br&#x2F;&gt;
- * &lt;br&#x2F;&gt;
- *
- * TODO: Right now we have unknown memory limitation&lt;br&#x2F;&gt;
- *
- * @class Memory
- * @extends DriverMemory
- *
- **&#x2F;
-var DriverMemory = {
+if (typeof jStorage === &#x27;undefined&#x27;) {
+    jStorage = {};
+}
+
+!function (ns) {
 
     &#x2F;**
-     * The driver name.
+     * This class is the implementation of InMemory storage.&lt;br&#x2F;&gt;
+     * The InMemory storage store all the data as Object (JSON) as key:value.&lt;br&#x2F;&gt;
+     * &lt;br&#x2F;&gt;
      *
-     * @property name
-     * @type {String}
-     * @default &#x27;Memory&#x27;
-     *&#x2F;
-    name:&#x27;DriverMemory&#x27;,
-
-    &#x2F;**
-     * The InMemory storage use Object (JSON) to store all the data.&lt;br&#x2F;&gt;
+     * TODO: Right now we have unknown memory limitation&lt;br&#x2F;&gt;
      *
-     * @property this._storage
-     * @type {Object}
-     * @private
-     *&#x2F;
-    _storage:{},
+     * @extends DriverMemory
+     * @constructor
+     * @class Memory
+     **&#x2F;
+    var DriverMemory = function (option) {
 
-    clear:function () {
-        console.log(&#x27;clear&#x27;);
-        this._storage = {};
-    },
+    };
 
-    each:function (cb) {
-        console.log(&#x27;each&#x27;);
-        var key;
+    ns.DriverMemory = DriverMemory.prototype = {
 
-        &#x2F;&#x2F; Verify that the callback is function
-        if (typeof  cb !== &#x27;function&#x27;) {
-            throw &#x27;Missing required callback function.&#x27;;
-        }
+        &#x2F;**
+         * The InMemory storage use Object (JSON) to store all the data.&lt;br&#x2F;&gt;
+         *
+         * @property this._storage
+         * @type {Object}
+         * @private
+         *&#x2F;
+        _storage:{},
 
-        for (key in this._storage) {
-            cb(key, this._storage[key]);
-        }
-    },
+        &#x2F;**
+         * The driver name.
+         *
+         * @property name
+         * @type {String}
+         * @default &#x27;Memory&#x27;
+         *&#x2F;
+        name:&#x27;DriverMemory&#x27;,
 
-    exist:function (key) {
-        console.log(&#x27;exist&#x27;);
-        return !!this._storage[key];
-    },
 
-    get:function (keys) {
-        console.log(&#x27;get&#x27;);
-        return this._storage[keys];
-    },
+        clear:function () {
+            console.log(&#x27;clear&#x27;);
+            this._storage = {};
+        },
 
-    getAll:function () {
-        console.log(&#x27;getAll&#x27;);
-        return this._storage;
-    },
+        each:function (cb) {
+            console.log(&#x27;each&#x27;);
+            var key;
 
-    getKeys:function () {
-        console.log(&#x27;getKeys&#x27;);
-        var key, keys = [];
-        for (key in this._storage) {
-            keys.push(key);
-        }
+            &#x2F;&#x2F; Verify that the callback is function
+            if (typeof  cb !== &#x27;function&#x27;) {
+                throw &#x27;Missing required callback function.&#x27;;
+            }
 
-        return keys;
-    },
+            for (key in this._storage) {
+                cb(key, this._storage[key]);
+            }
+        },
 
-    remove:function (keys) {
-        var key;
+        exist:function (key) {
+            console.log(&#x27;exist&#x27;);
+            return !!this._storage[key];
+        },
 
-        &#x2F;&#x2F; Check for set(String,String)
-        if (typeof keys === &#x27;string&#x27;) {
-            console.log(&#x27;remove(String): &#x27;, keys);
-            delete this._storage[keys];
-        } else if (Helper.isArray(keys)) {
-            console.log(&#x27;remove(Array): &#x27;, keys);
-            for (key in keys) {
-                if (keys.hasOwnProperty(key)) {
-                    delete this._storage[keys[key]];
+        get:function (keys) {
+            console.log(&#x27;get&#x27;);
+            return this._storage[keys];
+        },
+
+        getAll:function () {
+            console.log(&#x27;getAll&#x27;);
+            return this._storage;
+        },
+
+        getKeys:function () {
+            console.log(&#x27;getKeys&#x27;);
+            var key, keys = [];
+            for (key in this._storage) {
+                keys.push(key);
+            }
+
+            return keys;
+        },
+
+        remove:function (keys) {
+            var key;
+
+            &#x2F;&#x2F; Check for set(String,String)
+            if (typeof keys === &#x27;string&#x27;) {
+                console.log(&#x27;remove(String): &#x27;, keys);
+                delete this._storage[keys];
+            } else if (Helper.isArray(keys)) {
+                console.log(&#x27;remove(Array): &#x27;, keys);
+                for (key in keys) {
+                    if (keys.hasOwnProperty(key)) {
+                        delete this._storage[keys[key]];
+                    }
+                }
+            }
+        },
+
+        set:function (arg1, arg2) {
+
+            var key;
+
+            &#x2F;&#x2F; Check for set(String,String)
+            if (typeof arg2 === &#x27;string&#x27;) {
+                console.log(&#x27;set String: &#x27;, arg1, &#x27;=&#x27; + arg2);
+                this._storage[arg1] = arg2;
+            } else if (Helper.isArray(arg1) || Helper.isJSON(arg1)) {
+                console.log(&#x27;set(Array||JSON): &#x27;, arg1);
+                for (key in arg1) {
+                    if (arg1.hasOwnProperty(key)) {
+                        this._storage[key] = arg1[key];
+                    }
                 }
             }
         }
-    },
 
-    set:function (arg1, arg2) {
+    };
 
-        var key;
 
-        &#x2F;&#x2F; Check for set(String,String)
-        if (typeof arg2 === &#x27;string&#x27;) {
-            console.log(&#x27;set String: &#x27;, arg1, &#x27;=&#x27; + arg2);
-            this._storage[arg1] = arg2;
-        } else if (Helper.isArray(arg1) || Helper.isJSON(arg1)) {
-            console.log(&#x27;set(Array||JSON): &#x27;, arg1);
-            for (key in arg1) {
-                if (arg1.hasOwnProperty(key)) {
-                    this._storage[key] = arg1[key];
-                }
-            }
-        }
-    }
-
-};
-
+}.apply(jStorage, [jStorage]);
     </pre>
 </div>
 
