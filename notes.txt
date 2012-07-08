@@ -1,0 +1,44 @@
+Cross browser + All platforms
+Transparent
+Storage will use key->value mechanism
+Code will be open sources as much as possible
+Driver based - easy to add and use new drivers
+testings
+documentations
+support collections
+
+var db = new DBLayer('foo');
+
+db.set(name, value);
+db.set(Array);
+
+db.get(name, cb(value));
+db.get(Array, cb(value));
+
+db.each(cb(key,value));
+
+db.remove(name);
+db.remove(Array);
+
+db.getAll(cb(Object)); Object = key=value,key=value
+
+db.getKeys(cb(Array))
+
+db.exists(name);
+
+db.clear()
+
+Modal/Widget - look at create + methods add
+
+//Creating layer instances
+drivers[type] = inherit(initFunction, BaseDriver, params);
+
+// static function
+DbLayer.addDriver({
+    init
+        test
+    name
+});
+
+Driver - In memory
+Driver - Local storage

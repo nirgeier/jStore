@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="../public/scripts/common/Helper.js"></script>
+    <script src="../public/scripts/drivers/DriverMemory.js"></script>
+</head>
+<body>
+
+<script>
+    var driver = DriverMemory;
+
+    function each() {
+        // Print all the records
+        driver.each(function (key, value) {
+            console.log('Each -> ', key + ':' + value);
+        });
+    }
+
+    // Set
+    driver.set('key', 'value');
+    driver.set('key1', 'value1');
+    driver.set('key2', 'value2');
+
+    var arr1 = [];
+    // Add duplicate 'a' as key
+    arr1['a'] = 'arr0';
+    arr1['a1'] = 'arr1';
+    arr1['a2'] = 'arr2';
+    driver.set(arr1);
+
+    var json1 = {
+        a:'jsona',
+        b:'jsonb',
+        c:'jsonc'
+    };
+
+    // Print all the data in the storage
+    each();
+
+    driver.set(json1);
+
+    // Check to exists and then remove and check again
+    console.log('key1 exists: ', driver.exist('key1'));
+    console.log('getAll: ', driver.getAll());
+    console.log('getKeys: ', driver.getKeys());
+
+    // remove few records
+    driver.remove('a');
+    driver.remove(['a', 'c', 'key1']);
+
+    // Check to exists and after remove
+    console.log('key1 exists: ', driver.exist('key1'));
+
+    console.log('getAll: ', driver.getAll());
+    console.log('getKeys: ', driver.getKeys());
+
+    // Print all the data in the storage
+    each();
+
+    driver.clear();
+
+    // Print all the data in the storage
+    each();
+
+</script>
+
+</body>
+</html>

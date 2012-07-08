@@ -1,0 +1,10 @@
+{
+    "name":"jStorage",
+    "description":"Cross browser/Platform local local storage mechanism",
+    "version":"0.0.1",
+    "url":"http://example.com/",
+    "options":{
+        "outdir":"docs/apidocs",
+        "paths": "public/scripts"
+    }
+}
