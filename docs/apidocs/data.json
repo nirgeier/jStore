@@ -1,0 +1,293 @@
+{
+    "project": {
+        "name": "jStorage",
+        "description": "Cross browser/Platform local local storage mechanism",
+        "version": "0.0.1",
+        "url": "http://example.com/"
+    },
+    "files": {
+        "public\\scripts\\common\\Helper.js": {
+            "name": "public\\scripts\\common\\Helper.js",
+            "modules": {},
+            "classes": {
+                "Helper": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "public\\scripts\\drivers\\DriverMemory.js": {
+            "name": "public\\scripts\\drivers\\DriverMemory.js",
+            "modules": {},
+            "classes": {
+                "Memory": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "public\\scripts\\drivers\\DriverStub.js": {
+            "name": "public\\scripts\\drivers\\DriverStub.js",
+            "modules": {},
+            "classes": {
+                "DriverStub": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Helper": {
+            "name": "Helper",
+            "shortname": "Helper",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "public\\scripts\\common\\Helper.js",
+            "line": 1,
+            "description": "This class will contain helper methods.<br/>\nAll the methods should be static and"
+        },
+        "Memory": {
+            "name": "Memory",
+            "shortname": "Memory",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "public\\scripts\\drivers\\DriverMemory.js",
+            "line": 1,
+            "description": "This class is the implementation of InMemory storage.<br/>\nThe InMemory storage store all the data as Object (JSON) as key:value.<br/>\n<br/>\n\nTODO: Right now we have unknown memory limitation<br/>",
+            "extends": "DriverMemory"
+        },
+        "DriverStub": {
+            "name": "DriverStub",
+            "shortname": "DriverStub",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 1,
+            "description": "This class is the API for the framework drivers.<br/>\nEach Driver must implement all the public methods of this class."
+        }
+    },
+    "classitems": [
+        {
+            "file": "public\\scripts\\common\\Helper.js",
+            "line": 10,
+            "description": "This method will check to see if a give object is an array or not.<br/>\nWe first try to see if we have the Array.isArray and if not we will add polyfill to support it.<br/>",
+            "itemtype": "method",
+            "name": "isArray",
+            "class": "Helper"
+        },
+        {
+            "file": "public\\scripts\\common\\Helper.js",
+            "line": 20,
+            "description": "Check to see if given object is valid JSON.<br/>\nTODO: Make this more efficient. !!!!!",
+            "itemtype": "method",
+            "name": "isJson",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "- The data we want to check if its a valid JSON or not"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Helper"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverMemory.js",
+            "line": 14,
+            "description": "The driver name.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "{String}",
+            "default": "'Memory'",
+            "class": "Memory"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverMemory.js",
+            "line": 23,
+            "description": "The InMemory storage use Object (JSON) to store all the data.<br/>",
+            "itemtype": "property",
+            "name": "this._storage",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "class": "Memory"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 10,
+            "description": "The driver name.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "{String}",
+            "default": "'DriverStub'",
+            "class": "DriverStub"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 19,
+            "description": "Delete all the records from the storage",
+            "itemtype": "method",
+            "name": "clear",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "- A callback function that will be invoked after the clear.",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "DriverStub"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 29,
+            "description": "Run the callback method on all the storage items.<br/>\n\n<pre><code>\n  each(function callback(String key, String value)\n    </code>\n</pre>",
+            "itemtype": "method",
+            "name": "each",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "- A callback function that will handle the results.<br/>\n                             The callback parameters are (key, value)",
+                    "type": "Function"
+                }
+            ],
+            "class": "DriverStub"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 45,
+            "description": "Check to see if the given key already exist in the Storage",
+            "itemtype": "method",
+            "name": "exist",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "- The key of the item we want to check if exits",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "exists - true/false if the key exists or not",
+                "type": "Boolean"
+            },
+            "class": "DriverStub"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 56,
+            "description": "Retrieve item or items from the storage.<br/>\n\n<pre><code>\n  get(String key, function callback(String key, String value)  - fetch single record\n  get(Array keys, function callback(String key, Array values)  - fetch several records\n    </code>\n</pre>",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "- The key of the item we want to retrieve\n<br/>",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "keys",
+                    "description": "- Array with the keys that we want to fetch\n<br/>",
+                    "type": "Array",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "- A callback function that will handle the results.<br/>\n                             The callback parameters are (String, String|Array) based upon the arguments passed to the function",
+                    "type": "Function"
+                }
+            ],
+            "class": "DriverStub"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 77,
+            "description": "get all the storage items.<br/>\n\n<pre><code>\n  each(function callback(JSON records))\n    </code>\n</pre>",
+            "itemtype": "method",
+            "name": "getAll",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "- A callback function for processing the records",
+                    "type": "Function"
+                }
+            ],
+            "class": "DriverStub"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 92,
+            "description": "get all the storage keys.<br/>\n\n<pre><code>\n  each(function callback(Array keys))\n    </code>\n</pre>",
+            "itemtype": "method",
+            "name": "getKeys",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "- A callback function for processing the keys<br/>",
+                    "type": "Function"
+                }
+            ],
+            "class": "DriverStub"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 107,
+            "description": "Remove items from the storage\n\n<pre><code>\n  remove(String key)  - remove single record\n  remove(Array keys)  - remove all the records with the given ids\n    </code>\n</pre>",
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "- The key of the item we want to remove\n<br/>",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "keys",
+                    "description": "- Array with the keys that we want to remove",
+                    "type": "Array",
+                    "optional": true
+                }
+            ],
+            "class": "DriverStub"
+        },
+        {
+            "file": "public\\scripts\\drivers\\DriverStub.js",
+            "line": 125,
+            "description": "Add a new item(s) to the storage.<br/>\nIf the key is already in the store it will be updated.<br/>\nThe method accept <b>any</b> of the following:\n<pre><code>\n    set(String key, String value) - Simple key value pairs\n    set(JSON   pairs)             - Collection of keys and values\n    set(Array  pairs)             - Array of key value pairs\n    </code>\n</pre>",
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "key,value",
+                    "description": "- Simple key & value pair\n<br/>",
+                    "type": "String,String",
+                    "optional": true
+                },
+                {
+                    "name": "obj",
+                    "description": "- JSON containing set of key values pairs\n<br/>",
+                    "type": "JSON",
+                    "optional": true
+                },
+                {
+                    "name": "array",
+                    "description": "- Array of keys and values",
+                    "type": "Array",
+                    "optional": true
+                }
+            ],
+            "class": "DriverStub"
+        }
+    ]
+}
