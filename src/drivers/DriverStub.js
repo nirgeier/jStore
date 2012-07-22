@@ -5,7 +5,7 @@ if (typeof jStorage === 'undefined') {
 !function (ns) {
 
     /**
-     * This class is the API for the framework drivers.<br/>
+     * This class is the API for the framework drivers.
      * Each Driver must implement all the public methods of this class.
      *
      * @class DriverStub
@@ -33,7 +33,7 @@ if (typeof jStorage === 'undefined') {
         },
 
         /**
-         * Run the callback method on all the storage items.<br/>
+         * Run the callback method on all the storage items.
          *
          * <pre><code>
          *   each(function callback(String key, String value)
@@ -41,7 +41,7 @@ if (typeof jStorage === 'undefined') {
          * </pre>
 
          * @method each
-         * @param {Function} callback - A callback function that will handle the results.<br/>
+         * @param {Function} callback - A callback function that will handle the results.
          *                              The callback parameters are (key, value)
          */
         each:function () {
@@ -60,7 +60,7 @@ if (typeof jStorage === 'undefined') {
         },
 
         /**
-         * Retrieve item or items from the storage.<br/>
+         * Retrieve item or items from the storage.
          *
          * <pre><code>
          *   get(String key, function callback(String key, String value)  - fetch single record
@@ -70,10 +70,10 @@ if (typeof jStorage === 'undefined') {
 
          * @method get
          * @param {String} [key] - The key of the item we want to retrieve
-         * <br/>
+         * 
          * @param {Array}   [keys]   - Array with the keys that we want to fetch
-         * <br/>
-         * @param {Function} callback - A callback function that will handle the results.<br/>
+         * 
+         * @param {Function} callback - A callback function that will handle the results.
          *                              The callback parameters are (String, String|Array) based upon the arguments passed to the function
          */
         get:function () {
@@ -81,7 +81,7 @@ if (typeof jStorage === 'undefined') {
         },
 
         /**
-         * get all the storage items.<br/>
+         * get all the storage items.
          *
          * <pre><code>
          *   each(function callback(JSON records))
@@ -96,7 +96,7 @@ if (typeof jStorage === 'undefined') {
         },
 
         /**
-         * get all the storage keys.<br/>
+         * get all the storage keys.
          *
          * <pre><code>
          *   each(function callback(Array keys))
@@ -104,14 +104,14 @@ if (typeof jStorage === 'undefined') {
          * </pre>
 
          * @method getKeys
-         * @param {Function} callback - A callback function for processing the keys<br/>
+         * @param {Function} callback - A callback function for processing the keys
          */
         getKeys:function () {
             console.warn('getKeys method is not implemented');
         },
 
         /**
-         * This method will be init the Driver.<br/>
+         * This method will be init the Driver.
          * Any initialization code should be place here
          *
          * @method init
@@ -131,7 +131,7 @@ if (typeof jStorage === 'undefined') {
 
          * @method remove
          * @param {String} [key] - The key of the item we want to remove
-         * <br/>
+         * 
          * @param {Array}   [keys]   - Array with the keys that we want to remove
          */
         remove:function () {
@@ -139,8 +139,8 @@ if (typeof jStorage === 'undefined') {
         },
 
         /**
-         * Add a new item(s) to the storage.<br/>
-         * If the key is already in the store it will be updated.<br/>
+         * Add a new item(s) to the storage.
+         * If the key is already in the store it will be updated.
          * The method accept <b>any</b> of the following:
          * <pre><code>
          *     set(String key, String value) - Simple key value pairs
@@ -151,9 +151,9 @@ if (typeof jStorage === 'undefined') {
          *
          * @method set
          * @param {String,String} [key,value] - Simple key & value pair
-         * <br/>
+         * 
          * @param {JSON}   [obj]   - JSON containing set of key values pairs
-         * <br/>
+         * 
          * @param {Array}  [array] - Array of keys and values
          *
          */
@@ -162,7 +162,7 @@ if (typeof jStorage === 'undefined') {
         },
 
         /**
-         * This method will check to see if driver is available for the current browser.<br/>
+         * This method will check to see if driver is available for the current browser.
          * @method test
          * @return boolean
          */

@@ -6,22 +6,19 @@
         "url": "http://example.com/"
     },
     "files": {
-        "Source/Lawnchair.js": {
-            "name": "Source/Lawnchair.js",
-            "modules": {},
-            "classes": {},
+        "src/common/Events.js": {
+            "name": "src/common/Events.js",
+            "modules": {
+                "Events": 1
+            },
+            "classes": {
+                "Events": 1
+            },
             "fors": {},
             "namespaces": {}
         },
-        "Source/dom.js": {
-            "name": "Source/dom.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "public/scripts/common/Helper.js": {
-            "name": "public/scripts/common/Helper.js",
+        "src/common/Helper.js": {
+            "name": "src/common/Helper.js",
             "modules": {},
             "classes": {
                 "Helper": 1
@@ -29,8 +26,41 @@
             "fors": {},
             "namespaces": {}
         },
-        "public/scripts/drivers/DriverMemory.js": {
-            "name": "public/scripts/drivers/DriverMemory.js",
+        "src/common/utils.js": {
+            "name": "src/common/utils.js",
+            "modules": {},
+            "classes": {
+                "utils.CallbackGroup": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/common/utils.mixins.js": {
+            "name": "src/common/utils.mixins.js",
+            "modules": {
+                "utils.Mixins": 1
+            },
+            "classes": {
+                "utils.Events": 1,
+                "utils.Bind": 1,
+                "utils.Options": 1,
+                "utils.KeyNav": 1,
+                "utils.Delegate": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/drivers/DriverStub.js": {
+            "name": "src/drivers/DriverStub.js",
+            "modules": {},
+            "classes": {
+                "DriverStub": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/drivers/InMemory.js": {
+            "name": "src/drivers/InMemory.js",
             "modules": {},
             "classes": {
                 "Memory": 1
@@ -38,18 +68,87 @@
             "fors": {},
             "namespaces": {}
         },
-        "public/scripts/drivers/DriverStub.js": {
-            "name": "public/scripts/drivers/DriverStub.js",
-            "modules": {},
+        "src/Driver.js": {
+            "name": "src/Driver.js",
+            "modules": {
+                "Driver": 1
+            },
             "classes": {
-                "DriverStub": 1
+                "Driver": 1
             },
             "fors": {},
             "namespaces": {}
         }
     },
-    "modules": {},
+    "modules": {
+        "Events": {
+            "name": "Events",
+            "submodules": {},
+            "classes": {
+                "Events": 1,
+                "Helper": 1,
+                "utils.CallbackGroup": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/common/utils.js",
+            "line": 362
+        },
+        "utils.Mixins": {
+            "name": "utils.Mixins",
+            "submodules": {},
+            "classes": {
+                "utils.Events": 1,
+                "utils.Bind": 1,
+                "utils.Options": 1,
+                "utils.KeyNav": 1,
+                "utils.Delegate": 1,
+                "DriverStub": 1,
+                "Memory": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/drivers/InMemory.js",
+            "line": 7
+        },
+        "Driver": {
+            "name": "Driver",
+            "submodules": {},
+            "classes": {
+                "Driver": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/Driver.js",
+            "line": 21
+        }
+    },
     "classes": {
+        "Events": {
+            "name": "Events",
+            "shortname": "Events",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Events",
+            "namespace": "",
+            "file": "src/common/Events.js",
+            "line": 124,
+            "description": "Events Provider.\n\nCan function either as a standalone or a Mixin",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "el",
+                    "description": "element to use as event target. Optional",
+                    "type": "Element"
+                }
+            ]
+        },
         "Helper": {
             "name": "Helper",
             "shortname": "Helper",
@@ -58,23 +157,138 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "public/scripts/common/Helper.js",
+            "module": "Events",
+            "namespace": "",
+            "file": "src/common/Helper.js",
             "line": 7,
             "description": "This class will contain helper methods.<br/>\nAll the methods should be static and"
         },
-        "Memory": {
-            "name": "Memory",
-            "shortname": "Memory",
+        "utils.CallbackGroup": {
+            "name": "utils.CallbackGroup",
+            "shortname": "utils.CallbackGroup",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "public/scripts/drivers/DriverMemory.js",
-            "line": 7,
-            "description": "This class is the implementation of InMemory storage.<br/>\nThe InMemory storage store all the data as Object (JSON) as key:value.<br/>\n<br/>\n\nTODO: Right now we have unknown memory limitation<br/>",
-            "extends": "DriverMemory",
+            "module": "Events",
+            "namespace": "",
+            "file": "src/common/utils.js",
+            "line": 362,
+            "description": "This object allows you to pass a list of events to listen to. Once all of them are done, it will fire a callback",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "params",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "events",
+                            "description": "a map of event-name => event target",
+                            "type": "Object"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "a function to run once events are done",
+                    "type": "Function"
+                }
+            ],
+            "example": [
+                "\n     var group = new utils.CallbackGroup({\n         callback : function(){console.log('foo');},\n         events :{\n             'load' : this.bridge,\n             'iclick' : this.element\n         }\n     });"
+            ]
+        },
+        "utils.Events": {
+            "name": "utils.Events",
+            "shortname": "utils.Events",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils.Mixins",
+            "namespace": "",
+            "file": "src/common/utils.mixins.js",
+            "line": 6,
+            "extends": "Events"
+        },
+        "utils.Bind": {
+            "name": "utils.Bind",
+            "shortname": "utils.Bind",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils.Mixins",
+            "namespace": "",
+            "file": "src/common/utils.mixins.js",
+            "line": 12,
+            "description": "generates a bound function collection, using an object's bind array propery",
             "is_constructor": 1
+        },
+        "utils.Options": {
+            "name": "utils.Options",
+            "shortname": "utils.Options",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils.Mixins",
+            "namespace": "",
+            "file": "src/common/utils.mixins.js",
+            "line": 35,
+            "description": "A simple mixin for managing an options argument. Mixin uses the defaultOptions property to identify default options.\nMixin also automatically identify on* properties as events and assigns them",
+            "is_constructor": 1
+        },
+        "utils.KeyNav": {
+            "name": "utils.KeyNav",
+            "shortname": "utils.KeyNav",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils.Mixins",
+            "namespace": "",
+            "file": "src/common/utils.mixins.js",
+            "line": 97,
+            "description": "KeyNav mixin used to allow user navigating (class toggle) between list children.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "element",
+                    "description": "the element to add key navigation to"
+                }
+            ]
+        },
+        "utils.Delegate": {
+            "name": "utils.Delegate",
+            "shortname": "utils.Delegate",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils.Mixins",
+            "namespace": "",
+            "file": "src/common/utils.mixins.js",
+            "line": 191,
+            "description": "This mixin provides a utility function for easy event delegation handling",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "el",
+                    "description": "target element for all delegations",
+                    "type": "Element"
+                }
+            ],
+            "example": [
+                "\n     utils.Delegate.call(this,this.element)"
+            ]
         },
         "DriverStub": {
             "name": "DriverStub",
@@ -84,50 +298,273 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "public/scripts/drivers/DriverStub.js",
+            "module": "utils.Mixins",
+            "namespace": "",
+            "file": "src/drivers/DriverStub.js",
             "line": 7,
-            "description": "This class is the API for the framework drivers.<br/>\nEach Driver must implement all the public methods of this class."
+            "description": "This class is the API for the framework drivers.\nEach Driver must implement all the public methods of this class."
+        },
+        "Memory": {
+            "name": "Memory",
+            "shortname": "Memory",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils.Mixins",
+            "namespace": "",
+            "file": "src/drivers/InMemory.js",
+            "line": 7,
+            "description": "This class is the implementation of InMemory storage.<br/>\nThe InMemory storage store all the data as Object (JSON) as key:value.<br/>\n<br/>\n\nTODO: Right now we have unknown memory limitation<br/>",
+            "extends": "DriverMemory",
+            "is_constructor": 1
+        },
+        "Driver": {
+            "name": "Driver",
+            "shortname": "Driver",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Driver",
+            "namespace": "",
+            "file": "src/Driver.js",
+            "line": 21,
+            "description": "This is the skeleton Driver class.<br/>\nThe class will be used as teh base class for all the drivers implementation.<br/>\nHere we define the API for the drivers<br/>",
+            "is_constructor": 1
         }
     },
     "classitems": [
         {
-            "file": "Source/Lawnchair.js",
-            "line": 1,
-            "description": "Lawnchair!\n---\nclientside json store",
-            "class": "Helper"
+            "file": "src/common/Events.js",
+            "line": 35,
+            "description": "removes the on* prefix from event names",
+            "itemtype": "method",
+            "name": "Events.removeOn",
+            "static": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Events",
+            "module": "Events"
         },
         {
-            "file": "Source/Lawnchair.js",
-            "line": 63,
-            "description": "queues an adapter for mixin\n===\n- ensures an adapter conforms to a specific interface",
-            "class": "Helper"
+            "file": "src/common/Events.js",
+            "line": 50,
+            "description": "returns a structured data object about a type's pseudo-events",
+            "itemtype": "method",
+            "name": "getPseudo",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "data",
+                "type": "Object"
+            },
+            "class": "Events",
+            "module": "Events"
         },
         {
-            "file": "Source/Lawnchair.js",
+            "file": "src/common/Events.js",
+            "line": 73,
+            "description": "proccesses an event type, returning a valid data object from that name",
+            "itemtype": "method",
+            "name": "processType",
+            "static": 1,
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "data",
+                "type": "Object"
+            },
+            "class": "Events",
+            "module": "Events"
+        },
+        {
+            "file": "src/common/Events.js",
             "line": 87,
-            "description": "generic shallow extension for plugins\n===\n- if an init method is found it registers it to be called when the lawnchair is inited\n- yes we could use hasOwnProp but nobody here is an asshole",
-            "class": "Helper"
+            "description": "cross-browser function to create event object for fire method\n\nCreated object will always have following properties:\n - dispatcher: a reference to dispatching object (since we can't use 'this')\n - args: arguments passed alongside the event\n - object_event: a flag set to true to easily check if this is an object event or a normal DOM event.",
+            "itemtype": "method",
+            "name": "Events.createEvent",
+            "static": 1,
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "dispatcher",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "event object"
+            },
+            "class": "Events",
+            "module": "Events"
         },
         {
-            "file": "Source/Lawnchair.js",
-            "line": 98,
-            "description": "helpers",
-            "class": "Helper"
+            "file": "src/common/Events.js",
+            "line": 276,
+            "description": "Adds an event",
+            "itemtype": "method",
+            "name": "addEvent",
+            "params": [
+                {
+                    "name": "the",
+                    "description": "event type",
+                    "type": "String"
+                },
+                {
+                    "name": "a",
+                    "description": "function to add",
+                    "type": "Function"
+                }
+            ],
+            "chainable": 1,
+            "class": "Events",
+            "module": "Events"
         },
         {
-            "file": "Source/Lawnchair.js",
-            "line": 108,
-            "description": "this code exists for ie8... for more background see:\nhttp://www.flickr.com/photos/westcoastlogic/5955365742/in/photostream",
-            "class": "Helper"
+            "file": "src/common/Events.js",
+            "line": 306,
+            "description": "Helper to add multiple events at once",
+            "itemtype": "method",
+            "name": "addEvents",
+            "params": [
+                {
+                    "name": "literal",
+                    "description": "object of event types => callbacks",
+                    "type": "Object"
+                }
+            ],
+            "chainable": 1,
+            "class": "Events",
+            "module": "Events"
         },
         {
-            "file": "Source/dom.js",
-            "line": 1,
-            "description": "dom storage adapter\n===\n- originally authored by Joseph Pecoraro",
-            "class": "Helper"
+            "file": "src/common/Events.js",
+            "line": 325,
+            "description": "dispatches an event",
+            "itemtype": "method",
+            "name": "fireEvent",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "type",
+                    "type": "String"
+                },
+                {
+                    "name": "arguments",
+                    "description": "to pass with the event",
+                    "type": "Mixed"
+                }
+            ],
+            "chainable": 1,
+            "class": "Events",
+            "module": "Events"
         },
         {
-            "file": "public/scripts/common/Helper.js",
+            "file": "src/common/Events.js",
+            "line": 364,
+            "description": "removes a function from an event",
+            "itemtype": "method",
+            "name": "removeEvent",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "type",
+                    "type": "String"
+                },
+                {
+                    "name": "function",
+                    "description": "to remove from stack",
+                    "type": "Function"
+                }
+            ],
+            "chainable": 1,
+            "class": "Events",
+            "module": "Events"
+        },
+        {
+            "file": "src/common/Events.js",
+            "line": 387,
+            "description": "Adds an event for one execution, then removes it",
+            "itemtype": "method",
+            "name": "addEventOnce",
+            "params": [
+                {
+                    "name": "the",
+                    "description": "event type",
+                    "type": "String"
+                },
+                {
+                    "name": "a",
+                    "description": "function to add",
+                    "type": "Function"
+                }
+            ],
+            "chainable": 1,
+            "class": "Events",
+            "module": "Events"
+        },
+        {
+            "file": "src/common/Events.js",
+            "line": 409,
+            "description": "Fires a latched event",
+            "itemtype": "method",
+            "name": "fireLatchedEvent",
+            "params": [
+                {
+                    "name": "the",
+                    "description": "event type",
+                    "type": "String"
+                },
+                {
+                    "name": "arguments",
+                    "description": "to pass with the event",
+                    "type": "Mixed"
+                }
+            ],
+            "chainable": 1,
+            "class": "Events",
+            "module": "Events"
+        },
+        {
+            "file": "src/common/Helper.js",
             "line": 16,
             "description": "This method will check to see if a give object is an array or not.<br/>\nWe first try to see if we have the Array.isArray and if not we will add polyfill to support it.<br/>",
             "params": [
@@ -138,10 +575,11 @@
             ],
             "itemtype": "method",
             "name": "isArray",
-            "class": "Helper"
+            "class": "Helper",
+            "module": "Events"
         },
         {
-            "file": "public/scripts/common/Helper.js",
+            "file": "src/common/Helper.js",
             "line": 28,
             "description": "Check to see if given object is valid JSON.<br/>\nTODO: Make this more efficient. !!!!!",
             "itemtype": "method",
@@ -156,41 +594,251 @@
                 "description": "",
                 "type": "Boolean"
             },
-            "class": "Helper"
+            "class": "Helper",
+            "module": "Events"
         },
         {
-            "file": "public/scripts/drivers/DriverMemory.js",
-            "line": 24,
-            "description": "The InMemory storage use Object (JSON) to store all the data.<br/>",
+            "file": "src/common/utils.js",
+            "line": 144,
+            "description": "This function waits until all specified font-families loaded and then executes a callback function.\nSupplied font-families should be already defined in the document, by URL or base64.\nIf after specific threshold time fonts still not loaded, callback will be invoked.",
+            "itemtype": "method",
+            "name": "onFontsLoad",
+            "params": [
+                {
+                    "name": "fontFamiliesArray",
+                    "description": "Array of font-families to test",
+                    "type": "Array"
+                },
+                {
+                    "name": "fontsLoadedCallback",
+                    "description": "Callback function to call after all font-families loaded",
+                    "type": "Function"
+                }
+            ],
+            "class": "utils.CallbackGroup",
+            "module": "Events"
+        },
+        {
+            "file": "src/common/utils.js",
+            "line": 281,
+            "description": "sendSelectedText used by logItem.prepare method to parse MenuSelection context.selectedText and highlight type",
+            "params": [
+                {
+                    "name": "e",
+                    "description": ": LogItem object"
+                }
+            ],
+            "class": "utils.CallbackGroup",
+            "module": "Events"
+        },
+        {
+            "file": "src/common/utils.js",
+            "line": 307,
+            "description": "a syntax sugar for calling other object's methods on an object\n\nReturned function will function just like inherit's $parent, only that if you only pass it arguments it will call the constructor (like inherit#$construct)",
+            "itemtype": "method",
+            "name": "bindParent",
+            "static": 1,
+            "params": [
+                {
+                    "name": "target",
+                    "description": "object",
+                    "type": "Object"
+                },
+                {
+                    "name": "parent",
+                    "description": "object",
+                    "type": "Object"
+                },
+                {
+                    "name": "use_directly",
+                    "description": "if set to true, will use parent directly, rather than use it's prototype",
+                    "type": "Bool",
+                    "optional": true
+                }
+            ],
+            "example": [
+                "\n\n   this.parent = utils.bindParent(this, Foo);\n\n   this.parent([some_arg]); //will call Foo - bound to obj\n   this.parent('bar',[some_arg]); //will call Foo.prototype.bar - bound to obj"
+            ],
+            "return": {
+                "description": "",
+                "type": "Function"
+            },
+            "class": "utils.CallbackGroup",
+            "module": "Events"
+        },
+        {
+            "file": "src/common/utils.js",
+            "line": 396,
+            "description": "cancels the stack",
+            "itemtype": "method",
+            "name": "stop",
+            "params": [
+                {
+                    "name": "run",
+                    "description": "if set to true will run the callback",
+                    "type": "Boolean",
+                    "optional": true
+                }
+            ],
+            "class": "utils.CallbackGroup",
+            "module": "Events"
+        },
+        {
+            "file": "src/common/utils.js",
+            "line": 496,
+            "description": "Logger Class.\nCreates a logger.",
+            "params": [
+                {
+                    "name": "loggerName",
+                    "description": "Name of the logger. If a logger with supplied name\nalready exists, that logger instance is returned and its level will be updated\nto a passed level or will stay with old level if level parameter wasn't passed.",
+                    "type": "String"
+                },
+                {
+                    "name": "level",
+                    "description": "Debug level of the logger.",
+                    "type": "Logger.logLevels ENUM"
+                }
+            ],
+            "class": "utils.CallbackGroup",
+            "module": "Events"
+        },
+        {
+            "file": "src/common/utils.mixins.js",
+            "line": 20,
+            "description": "holds the generated bound function collection",
             "itemtype": "property",
-            "name": "this._storage",
+            "name": "bound",
+            "access": "protected",
+            "tagname": "",
+            "type": "object",
+            "class": "utils.Bind",
+            "module": "utils.Mixins"
+        },
+        {
+            "file": "src/common/utils.mixins.js",
+            "line": 51,
+            "itemtype": "method",
+            "name": "setOptions",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "chainable": 1,
+            "class": "utils.Options",
+            "module": "utils.Mixins"
+        },
+        {
+            "file": "src/common/utils.mixins.js",
+            "line": 67,
+            "description": "this property will be used to identify default options",
+            "itemtype": "property",
+            "name": "defaultOptions",
+            "access": "protected",
+            "tagname": "",
+            "class": "utils.Options",
+            "module": "utils.Mixins"
+        },
+        {
+            "file": "src/common/utils.mixins.js",
+            "line": 73,
+            "description": "this method acts like merge, only that it only merges properties of the original object\n\n_Creates a new object rather than actually merge_",
+            "itemtype": "method",
+            "name": "setOptions",
+            "static": 1,
+            "params": [
+                {
+                    "name": "defaults",
+                    "description": "a map of default properties",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "a map of values to merge",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "new merged object",
+                "type": "Object"
+            },
+            "class": "utils.Options",
+            "module": "utils.Mixins"
+        },
+        {
+            "file": "src/common/utils.mixins.js",
+            "line": 106,
+            "description": "add this property to your object before applying the mixin to pass it as options.\n\nPossible options are:\n\n* `className` : custom class name to mark selected element\n* `onSelect`  : a callback to call when an element is selected\n* `event_type` (default is keydown)\n* `use_capture` (default is false)",
+            "itemtype": "property",
+            "name": "keyNavOptions",
+            "type": "object",
+            "class": "utils.KeyNav",
+            "module": "utils.Mixins"
+        },
+        {
+            "file": "src/common/utils.mixins.js",
+            "line": 214,
+            "description": "a reference for delegated element",
+            "itemtype": "property",
+            "name": "$delegated_element",
+            "type": "{Element}",
+            "access": "private",
+            "tagname": "",
+            "class": "utils.Delegate",
+            "module": "utils.Mixins"
+        },
+        {
+            "file": "src/common/utils.mixins.js",
+            "line": 221,
+            "description": "a holder for selector maps",
+            "itemtype": "property",
+            "name": "$delegated_maps",
             "type": "{Object}",
             "access": "private",
             "tagname": "",
-            "class": "Memory"
+            "class": "utils.Delegate",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverMemory.js",
-            "line": 33,
-            "description": "The driver name.",
-            "itemtype": "property",
-            "name": "name",
-            "type": "{String}",
-            "default": "'Memory'",
-            "class": "Memory"
+            "file": "src/common/utils.mixins.js",
+            "line": 229,
+            "description": "delegates a map of selectors to a specific event",
+            "itemtype": "method",
+            "name": "delegateEvent",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "a",
+                    "description": "selector => function map.",
+                    "type": "Object"
+                }
+            ],
+            "example": [
+                "\n     this.delegateEvent('iclick',{\n         '.note.editable' : this.bound.editNote\n         '.handle.close'  : this.bound.close\n     });"
+            ],
+            "chainable": 1,
+            "class": "utils.Delegate",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 16,
             "description": "The driver name.",
             "itemtype": "property",
             "name": "name",
             "type": "{String}",
             "default": "'DriverStub'",
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 25,
             "description": "Delete all the records from the storage",
             "itemtype": "method",
@@ -203,25 +851,27 @@
                     "optional": true
                 }
             ],
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 35,
-            "description": "Run the callback method on all the storage items.<br/>\n\n<pre><code>\n  each(function callback(String key, String value)\n    </code>\n</pre>",
+            "description": "Run the callback method on all the storage items.\n\n<pre><code>\n  each(function callback(String key, String value)\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "each",
             "params": [
                 {
                     "name": "callback",
-                    "description": "- A callback function that will handle the results.<br/>\n                             The callback parameters are (key, value)",
+                    "description": "- A callback function that will handle the results.\n                             The callback parameters are (key, value)",
                     "type": "Function"
                 }
             ],
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 51,
             "description": "Check to see if the given key already exist in the Storage",
             "itemtype": "method",
@@ -237,39 +887,41 @@
                 "description": "exists - true/false if the key exists or not",
                 "type": "Boolean"
             },
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 62,
-            "description": "Retrieve item or items from the storage.<br/>\n\n<pre><code>\n  get(String key, function callback(String key, String value)  - fetch single record\n  get(Array keys, function callback(String key, Array values)  - fetch several records\n    </code>\n</pre>",
+            "description": "Retrieve item or items from the storage.\n\n<pre><code>\n  get(String key, function callback(String key, String value)  - fetch single record\n  get(Array keys, function callback(String key, Array values)  - fetch several records\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "get",
             "params": [
                 {
                     "name": "key",
-                    "description": "- The key of the item we want to retrieve\n<br/>",
+                    "description": "- The key of the item we want to retrieve",
                     "type": "String",
                     "optional": true
                 },
                 {
                     "name": "keys",
-                    "description": "- Array with the keys that we want to fetch\n<br/>",
+                    "description": "- Array with the keys that we want to fetch",
                     "type": "Array",
                     "optional": true
                 },
                 {
                     "name": "callback",
-                    "description": "- A callback function that will handle the results.<br/>\n                             The callback parameters are (String, String|Array) based upon the arguments passed to the function",
+                    "description": "- A callback function that will handle the results.\n                             The callback parameters are (String, String|Array) based upon the arguments passed to the function",
                     "type": "Function"
                 }
             ],
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 83,
-            "description": "get all the storage items.<br/>\n\n<pre><code>\n  each(function callback(JSON records))\n    </code>\n</pre>",
+            "description": "get all the storage items.\n\n<pre><code>\n  each(function callback(JSON records))\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "getAll",
             "params": [
@@ -279,33 +931,36 @@
                     "type": "Function"
                 }
             ],
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 98,
-            "description": "get all the storage keys.<br/>\n\n<pre><code>\n  each(function callback(Array keys))\n    </code>\n</pre>",
+            "description": "get all the storage keys.\n\n<pre><code>\n  each(function callback(Array keys))\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "getKeys",
             "params": [
                 {
                     "name": "callback",
-                    "description": "- A callback function for processing the keys<br/>",
+                    "description": "- A callback function for processing the keys",
                     "type": "Function"
                 }
             ],
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 113,
-            "description": "This method will be init the Driver.<br/>\nAny initialization code should be place here",
+            "description": "This method will be init the Driver.\nAny initialization code should be place here",
             "itemtype": "method",
             "name": "init",
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 123,
             "description": "Remove items from the storage\n\n<pre><code>\n  remove(String key)  - remove single record\n  remove(Array keys)  - remove all the records with the given ids\n    </code>\n</pre>",
             "itemtype": "method",
@@ -313,7 +968,7 @@
             "params": [
                 {
                     "name": "key",
-                    "description": "- The key of the item we want to remove\n<br/>",
+                    "description": "- The key of the item we want to remove",
                     "type": "String",
                     "optional": true
                 },
@@ -324,24 +979,25 @@
                     "optional": true
                 }
             ],
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 141,
-            "description": "Add a new item(s) to the storage.<br/>\nIf the key is already in the store it will be updated.<br/>\nThe method accept <b>any</b> of the following:\n<pre><code>\n    set(String key, String value) - Simple key value pairs\n    set(JSON   pairs)             - Collection of keys and values\n    set(Array  pairs)             - Array of key value pairs\n    </code>\n</pre>",
+            "description": "Add a new item(s) to the storage.\nIf the key is already in the store it will be updated.\nThe method accept <b>any</b> of the following:\n<pre><code>\n    set(String key, String value) - Simple key value pairs\n    set(JSON   pairs)             - Collection of keys and values\n    set(Array  pairs)             - Array of key value pairs\n    </code>\n</pre>",
             "itemtype": "method",
             "name": "set",
             "params": [
                 {
                     "name": "key,value",
-                    "description": "- Simple key & value pair\n<br/>",
+                    "description": "- Simple key & value pair",
                     "type": "String,String",
                     "optional": true
                 },
                 {
                     "name": "obj",
-                    "description": "- JSON containing set of key values pairs\n<br/>",
+                    "description": "- JSON containing set of key values pairs",
                     "type": "JSON",
                     "optional": true
                 },
@@ -352,18 +1008,340 @@
                     "optional": true
                 }
             ],
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
         },
         {
-            "file": "public/scripts/drivers/DriverStub.js",
+            "file": "src/drivers/DriverStub.js",
             "line": 164,
-            "description": "This method will check to see if driver is available for the current browser.<br/>",
+            "description": "This method will check to see if driver is available for the current browser.",
             "itemtype": "method",
             "name": "test",
             "return": {
                 "description": "boolean"
             },
-            "class": "DriverStub"
+            "class": "DriverStub",
+            "module": "utils.Mixins"
+        },
+        {
+            "file": "src/drivers/InMemory.js",
+            "line": 24,
+            "description": "The InMemory storage use Object (JSON) to store all the data.<br/>",
+            "itemtype": "property",
+            "name": "this._storage",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "class": "Memory",
+            "module": "utils.Mixins"
+        },
+        {
+            "file": "src/drivers/InMemory.js",
+            "line": 33,
+            "description": "The driver name.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "{String}",
+            "default": "'Memory'",
+            "class": "Memory",
+            "module": "utils.Mixins"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 9,
+            "description": "This is the stub methods for the driver.\nThe method return this so it can be chainable later if needed.",
+            "chainable": 1,
+            "return": {
+                "description": "",
+                "type": "This"
+            },
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 44,
+            "description": "The driver name.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "{String}",
+            "default": "'Driver'",
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 53,
+            "description": "This method will check to see if driver is available for the current browser.",
+            "itemtype": "method",
+            "name": "valid",
+            "return": {
+                "description": "boolean"
+            },
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 65,
+            "description": "Add all the api methods to the driver class.\nThose methods should be implemented in each driver",
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 74,
+            "description": "List of available drivers.",
+            "itemtype": "property",
+            "name": "drivers",
+            "static": 1,
+            "type": "{Array}",
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 83,
+            "description": "Registers a driver.<br/> \nA driver must always have a <b>test</b> method<br/>",
+            "itemtype": "method",
+            "name": "register",
+            "static": 1,
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "props",
+                    "description": "a list of methods and properties for the new driver",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "the new driver",
+                "type": "Driver"
+            },
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 116,
+            "description": "chooses which driver to use and creates it",
+            "itemtype": "method",
+            "name": "choose",
+            "static": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "options to pass to the driver's constructor",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "the chosen driver",
+                "type": "Driver"
+            },
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 142,
+            "description": "Delete all the records from the storage",
+            "async": 1,
+            "chainable": 1,
+            "itemtype": "method",
+            "name": "clear",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "- A callback function that will be invoked after the clear.",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 152,
+            "description": "Run the callback method on all the storage items.\n\n<pre><code>\n  each(function callback(String key, String value)\n\n</code>\n</pre>",
+            "async": 1,
+            "chainable": 1,
+            "itemtype": "method",
+            "name": "each",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "- A callback function that will handle the results.\n                             The callback parameters are (key, value)",
+                    "type": "Function"
+                }
+            ],
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 169,
+            "description": "Check to see if the given key already exist in the Storage\n<pre><code>\n  exists(String key, function callback(String key, String value) - fetch single/multiple record\n\n</code>\n</pre>",
+            "async": 1,
+            "chainable": 1,
+            "itemtype": "method",
+            "name": "exist",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "- The key of the item we want to check if exits",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "- A callback function that will handle the results.\n                             The callback parameters are (key, value)",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "exists - true/false if the key exists or not",
+                "type": "Boolean"
+            },
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 188,
+            "description": "Retrieve item or items from the storage.\n\n<pre><code>\n  get(String|Array, function callback(String key, String value)  - fetch single/multiple record\n\n</code>\n</pre>",
+            "async": 1,
+            "chainable": 1,
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "- The key of the item we want to retrieve",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "keys",
+                    "description": "- Array with the keys that we want to fetch",
+                    "type": "Array",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "- A callback function that will handle the results.\n                             The callback parameters are (String, String|Array) based upon the arguments passed to the function",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "if was asked for a collection of values, return a map, otherwise return a string",
+                "type": "String|object"
+            },
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 212,
+            "description": "get all the storage items.\n\n<pre><code>\n  getAll(function callback(JSON records))\n\n    </code>\n</pre>",
+            "async": 1,
+            "chainable": 1,
+            "itemtype": "method",
+            "name": "getAll",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "- A callback function for processing the records",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "key=>value map",
+                "type": "Object"
+            },
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 229,
+            "description": "get all the storage keys.\n\n<pre><code>\n  getKeys(function callback(Array keys))\n\n    </code>\n</pre>",
+            "async": 1,
+            "chainable": 1,
+            "itemtype": "method",
+            "name": "getKeys",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "- A callback function for processing the keys",
+                    "type": "Function"
+                }
+            ],
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 245,
+            "description": "This method will be init the Driver.\nAny initialization code should be place here",
+            "itemtype": "method",
+            "name": "init",
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 252,
+            "description": "Remove items from the storage\n\n<pre><code>\n  remove(String|Array) - remove the given key(s) from teh storage\n\n    </code>\n</pre>",
+            "async": 1,
+            "chainable": 1,
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "key/keys",
+                    "description": "- The key(s) of the item we want to remove",
+                    "type": "String|Array",
+                    "optional": true
+                }
+            ],
+            "class": "Driver",
+            "module": "Driver"
+        },
+        {
+            "file": "src/Driver.js",
+            "line": 268,
+            "description": "Add a new item(s) to the storage.\nIf the key is already in the store it will be updated.\nThe method accept <b>any</b> of the following:\n\n<pre><code>\n    set(String key, String value) - Simple key value pairs\n    set(JSON   pairs)             - Collection of keys and values\n    set(Array  pairs)             - Array of key value pairs\n\n    </code>\n</pre>",
+            "async": 1,
+            "chainable": 1,
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "key,value",
+                    "description": "- Simple key & value pair",
+                    "type": "String,String",
+                    "optional": true
+                },
+                {
+                    "name": "obj",
+                    "description": "- JSON containing set of key values pairs",
+                    "type": "JSON",
+                    "optional": true
+                },
+                {
+                    "name": "Array",
+                    "description": "- Array of keys and values",
+                    "type": "Array",
+                    "optional": true
+                }
+            ],
+            "class": "Driver",
+            "module": "Driver"
         }
     ]
 }

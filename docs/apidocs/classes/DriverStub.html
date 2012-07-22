@@ -41,15 +41,37 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
+                <li><a href="..&#x2F;classes/Driver.html">Driver</a></li>
+            
                 <li><a href="..&#x2F;classes/DriverStub.html">DriverStub</a></li>
+            
+                <li><a href="..&#x2F;classes/Events.html">Events</a></li>
             
                 <li><a href="..&#x2F;classes/Helper.html">Helper</a></li>
             
                 <li><a href="..&#x2F;classes/Memory.html">Memory</a></li>
             
+                <li><a href="..&#x2F;classes/utils.Bind.html">utils.Bind</a></li>
+            
+                <li><a href="..&#x2F;classes/utils.CallbackGroup.html">utils.CallbackGroup</a></li>
+            
+                <li><a href="..&#x2F;classes/utils.Delegate.html">utils.Delegate</a></li>
+            
+                <li><a href="..&#x2F;classes/utils.Events.html">utils.Events</a></li>
+            
+                <li><a href="..&#x2F;classes/utils.KeyNav.html">utils.KeyNav</a></li>
+            
+                <li><a href="..&#x2F;classes/utils.Options.html">utils.Options</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/Driver.html">Driver</a></li>
+            
+                <li><a href="..&#x2F;modules/Events.html">Events</a></li>
+            
+                <li><a href="..&#x2F;modules/utils.Mixins.html">utils.Mixins</a></li>
             
             </ul>
         </div>
@@ -94,10 +116,14 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l7"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:7</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l7"><code>src&#x2F;drivers&#x2F;DriverStub.js:7</code></a>
         </div>
     
 
+    
+        
+            Module: <a href="../modules/utils.Mixins.html">utils.Mixins</a>
+        
     
 
     
@@ -106,7 +132,7 @@
 
 
 <div class="box intro">
-    <p>This class is the API for the framework drivers.<br/>
+    <p>This class is the API for the framework drivers.
 Each Driver must implement all the public methods of this class.</p>
 </div>
 
@@ -279,7 +305,7 @@ Each Driver must implement all the public methods of this class.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l25"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:25</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l25"><code>src&#x2F;drivers&#x2F;DriverStub.js:25</code></a>
         
         </p>
 
@@ -369,7 +395,7 @@ Each Driver must implement all the public methods of this class.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l35"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:35</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l35"><code>src&#x2F;drivers&#x2F;DriverStub.js:35</code></a>
         
         </p>
 
@@ -380,7 +406,7 @@ Each Driver must implement all the public methods of this class.</p>
     </div>
 
     <div class="description">
-        <p>Run the callback method on all the storage items.<br/></p>
+        <p>Run the callback method on all the storage items.</p>
 
 <pre class="code"><code class="prettyprint">
   each(function callback(String key, String value)
@@ -404,7 +430,7 @@ Each Driver must implement all the public methods of this class.</p>
 
                     <div class="param-description">
                         <ul>
-<li>A callback function that will handle the results.<br/>
+<li>A callback function that will handle the results.
                          The callback parameters are (key, value)</li>
 </ul>
                     </div>
@@ -468,7 +494,7 @@ Each Driver must implement all the public methods of this class.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l51"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:51</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l51"><code>src&#x2F;drivers&#x2F;DriverStub.js:51</code></a>
         
         </p>
 
@@ -582,7 +608,7 @@ Each Driver must implement all the public methods of this class.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l62"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:62</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l62"><code>src&#x2F;drivers&#x2F;DriverStub.js:62</code></a>
         
         </p>
 
@@ -593,7 +619,7 @@ Each Driver must implement all the public methods of this class.</p>
     </div>
 
     <div class="description">
-        <p>Retrieve item or items from the storage.<br/></p>
+        <p>Retrieve item or items from the storage.</p>
 
 <pre class="code"><code class="prettyprint">
   get(String key, function callback(String key, String value)  - fetch single record
@@ -619,8 +645,7 @@ Each Driver must implement all the public methods of this class.</p>
 
                     <div class="param-description">
                         <ul>
-<li>The key of the item we want to retrieve
-<br/></li>
+<li>The key of the item we want to retrieve</li>
 </ul>
                     </div>
 
@@ -638,8 +663,7 @@ Each Driver must implement all the public methods of this class.</p>
 
                     <div class="param-description">
                         <ul>
-<li>Array with the keys that we want to fetch
-<br/></li>
+<li>Array with the keys that we want to fetch</li>
 </ul>
                     </div>
 
@@ -656,7 +680,7 @@ Each Driver must implement all the public methods of this class.</p>
 
                     <div class="param-description">
                         <ul>
-<li>A callback function that will handle the results.<br/>
+<li>A callback function that will handle the results.
                          The callback parameters are (String, String|Array) based upon the arguments passed to the function</li>
 </ul>
                     </div>
@@ -716,7 +740,7 @@ Each Driver must implement all the public methods of this class.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l83"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:83</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l83"><code>src&#x2F;drivers&#x2F;DriverStub.js:83</code></a>
         
         </p>
 
@@ -727,7 +751,7 @@ Each Driver must implement all the public methods of this class.</p>
     </div>
 
     <div class="description">
-        <p>get all the storage items.<br/></p>
+        <p>get all the storage items.</p>
 
 <pre class="code"><code class="prettyprint">
   each(function callback(JSON records))
@@ -810,7 +834,7 @@ Each Driver must implement all the public methods of this class.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l98"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:98</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l98"><code>src&#x2F;drivers&#x2F;DriverStub.js:98</code></a>
         
         </p>
 
@@ -821,7 +845,7 @@ Each Driver must implement all the public methods of this class.</p>
     </div>
 
     <div class="description">
-        <p>get all the storage keys.<br/></p>
+        <p>get all the storage keys.</p>
 
 <pre class="code"><code class="prettyprint">
   each(function callback(Array keys))
@@ -845,7 +869,7 @@ Each Driver must implement all the public methods of this class.</p>
 
                     <div class="param-description">
                         <ul>
-<li>A callback function for processing the keys<br/></li>
+<li>A callback function for processing the keys</li>
 </ul>
                     </div>
 
@@ -894,7 +918,7 @@ Each Driver must implement all the public methods of this class.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l113"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:113</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l113"><code>src&#x2F;drivers&#x2F;DriverStub.js:113</code></a>
         
         </p>
 
@@ -905,7 +929,7 @@ Each Driver must implement all the public methods of this class.</p>
     </div>
 
     <div class="description">
-        <p>This method will be init the Driver.<br/>
+        <p>This method will be init the Driver.
 Any initialization code should be place here</p>
     </div>
 
@@ -965,7 +989,7 @@ Any initialization code should be place here</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l123"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:123</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l123"><code>src&#x2F;drivers&#x2F;DriverStub.js:123</code></a>
         
         </p>
 
@@ -1002,8 +1026,7 @@ Any initialization code should be place here</p>
 
                     <div class="param-description">
                         <ul>
-<li>The key of the item we want to remove
-<br/></li>
+<li>The key of the item we want to remove</li>
 </ul>
                     </div>
 
@@ -1092,7 +1115,7 @@ Any initialization code should be place here</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l141"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:141</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l141"><code>src&#x2F;drivers&#x2F;DriverStub.js:141</code></a>
         
         </p>
 
@@ -1103,8 +1126,8 @@ Any initialization code should be place here</p>
     </div>
 
     <div class="description">
-        <p>Add a new item(s) to the storage.<br/>
-If the key is already in the store it will be updated.<br/>
+        <p>Add a new item(s) to the storage.
+If the key is already in the store it will be updated.
 The method accept <b>any</b> of the following:</p>
 
 <pre class="code"><code class="prettyprint">
@@ -1132,8 +1155,7 @@ The method accept <b>any</b> of the following:</p>
 
                     <div class="param-description">
                         <ul>
-<li>Simple key &amp; value pair
-<br/></li>
+<li>Simple key &amp; value pair</li>
 </ul>
                     </div>
 
@@ -1151,8 +1173,7 @@ The method accept <b>any</b> of the following:</p>
 
                     <div class="param-description">
                         <ul>
-<li>JSON containing set of key values pairs
-<br/></li>
+<li>JSON containing set of key values pairs</li>
 </ul>
                     </div>
 
@@ -1223,7 +1244,7 @@ The method accept <b>any</b> of the following:</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l164"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:164</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l164"><code>src&#x2F;drivers&#x2F;DriverStub.js:164</code></a>
         
         </p>
 
@@ -1234,7 +1255,7 @@ The method accept <b>any</b> of the following:</p>
     </div>
 
     <div class="description">
-        <p>This method will check to see if driver is available for the current browser.<br/></p>
+        <p>This method will check to see if driver is available for the current browser.</p>
     </div>
 
     
@@ -1287,7 +1308,7 @@ The method accept <b>any</b> of the following:</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;public_scripts_drivers_DriverStub.js.html#l16"><code>public&#x2F;scripts&#x2F;drivers&#x2F;DriverStub.js:16</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_DriverStub.js.html#l16"><code>src&#x2F;drivers&#x2F;DriverStub.js:16</code></a>
         
         </p>
 
