@@ -42,3 +42,5 @@ DbLayer.addDriver({
 
 Driver - In memory
 Driver - Local storage
+Driver - IndexDB
+Driver - WebSQL

@@ -2,13 +2,19 @@
 <html>
 <head>
     <title></title>
-    <script src="../public/scripts/common/Helper.js"></script>
-    <script src="../public/scripts/drivers/DriverMemory.js"></script>
+    <script src="../src/common/Error.js"></script>
+    <script src="../src/common/Events.js"></script>
+    <script src="../src/common/Logger.js"></script>
+    <script src="../src/common/utils.js"></script>
+    <script src="../src/common/utils.mixins.js"></script>
+    <script src="../src/drivers/Driver.js"></script>
+    <script src="../src/drivers/DriverManager.js"></script>
+    <script src="../src/drivers/InMemory.js"></script>
 </head>
 <body>
 
 <script>
-    var driver = jStorage.DriverMemory;
+    var driver = jStore.DriverManager.choose();
 
     function each() {
         // Print all the records
@@ -41,7 +47,7 @@
     driver.set(json1);
 
     // Check to exists and then remove and check again
-    console.log('key1 exists: ', driver.exist('key1'));
+    console.log('key1 exists: ', driver.exists('key1'));
     console.log('getAll: ', driver.getAll());
     console.log('getKeys: ', driver.getKeys());
 
@@ -50,7 +56,7 @@
     driver.remove(['a', 'c', 'key1']);
 
     // Check to exists and after remove
-    console.log('key1 exists: ', driver.exist('key1'));
+    console.log('key1 exists: ', driver.exists('key1'));
 
     console.log('getAll: ', driver.getAll());
     console.log('getKeys: ', driver.getKeys());

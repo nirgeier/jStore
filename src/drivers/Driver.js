@@ -1,27 +1,20 @@
+var jStore = jStore || {};
+
 !function (ns, utils) {
     /**
      * @module Driver
+     * @class Driver
      */
 
-    var Driver,
-        apiMethods = "clear, each, exists, get, getAll, getKeys, init, remove, set".split(' ');
+    var Driver;
 
     /**
-     * This is the stub methods for the driver.
-     * The method return this so it can be chainable later if needed.
-     *
-     * @chainable
-     * 
-     * @return {this}
-     */
-    function stubMethod() {
-        return this;
-    }
-
-    /**
-     * This is the skeleton Driver class.<br/>
+     * This is the skeleton DriverManager class.<br/>
      * The class will be used as teh base class for all the drivers implementation.<br/>
      * Here we define the API for the drivers<br/>
+     * 
+     * List of the required methods: <br/>
+     * <b>clear each exists get getAll getKeys init remove set test</b>
      *
      * @class Driver
      *
@@ -30,117 +23,34 @@
      * @ uses Bind
      * @constructor
      */
-    function Driver(options) {
+    ns.Driver = Driver = function (options) {
         utils.Events.call(this);
         utils.Options.call(this);
         utils.Bind.call(this);
 
         this.setOptions(options);
-    }
+    };
 
     Driver.prototype = {
-        constructor:Driver,
-
-        /**
-         * The driver name.
-         *
-         * @property name
-         * @type {String}
-         * @default 'Driver'
-         */
-        name:'Driver',
-
-        /**
-         * This method will check to see if driver is available for the current browser.
-         *
-         * @method valid
-         * @return boolean
-         */
-        valid:function () {
-            return false;
-        }
-
+        constructor:Driver
     };
-
-    /**
-     * Add all the api methods to the driver class.
-     * Those methods should be implemented in each driver
-     */
-    apiMethods.forEach(function (method, index, array) {
-        Driver.prototype[method] = stubMethod;
-    });
-
-
-    /**
-     * List of available drivers.
-     *
-     * @property drivers
-     * @static
-     * @type {Array}
-     */
-    Driver.drivers = [];
-
-    /**
-     * Registers a driver.<br/> 
-     * A driver must always have a <b>test</b> method<br/>
-     *
-     * @method register
-     * @static
-     *
-     * @param {string} name
-     * @param {object} props a list of methods and properties for the new driver
-     *
-     * @return {Driver} the new driver
-     */
-    Driver.register = function (name, params) {
-        var d;
-
-        function driver() {
-            this.$construct(arguments);
-            this.init && this.init(arguments);
-        }
-
-        if (!params.test || typeof params.test != 'function') {
-            throw "Driver must always have a test method";
-        }
-
-        d = utils.inherit(driver, Driver, params);
-        d.test = params.test;
-        d.name = name;
-
-        Driver.drivers.push(d);
-
-        return d;
-    };
-
-    /**
-     * chooses which driver to use and creates it
-     * @method choose
-     * @static
-     *
-     * @param {object} options options to pass to the driver's constructor
-     *
-     * @return {Driver} the chosen driver
-     */
-    Driver.choose = function (opts) {
-        var i, driver;
-
-        if (Driver.chosen) {
-            return new Driver.chosen(opts);
-        }
-
-        for (i = 0; driver = Driver.drivers[i]; i++) {
-            if (driver.test()) {
-                Driver.chosen = driver;
-                return new driver(opts);
-            }
-        }
-    }
 
     // ---- API Method documentation
 
     /**
+     * The driver name.
+     *
+     * @property name
+     * @type {String}
+     */
+
+    /**
      * Delete all the records from the storage
+     * 
+     * <pre><code>
+     *   clear(function callback(Error|null))
+     *   </code>
+     * </pre>
      *
      * @async
      * @chainable
@@ -153,9 +63,8 @@
      * Run the callback method on all the storage items.
      *
      * <pre><code>
-     *   each(function callback(String key, String value)
-     *
-     * </code>
+     *   each(function callback(Error|null, String key, String value)
+     *   </code>
      * </pre>
      *
      * @async
@@ -169,7 +78,7 @@
     /**
      * Check to see if the given key already exist in the Storage
      * <pre><code>
-     *   exists(String key, function callback(String key, String value) - fetch single/multiple record
+     *   exists(String key, function callback(Error|null, String key, String value) - fetch single/multiple record
      *
      * </code>
      * </pre>
@@ -189,7 +98,7 @@
      * Retrieve item or items from the storage.
      *
      * <pre><code>
-     *   get(String|Array, function callback(String key, String value)  - fetch single/multiple record
+     *   get(String|Array, function callback(Error|null, String key, String value)  - fetch single/multiple record
      *
      * </code>
      * </pre>
@@ -213,8 +122,7 @@
      * get all the storage items.
      *
      * <pre><code>
-     *   getAll(function callback(JSON records))
-     *
+     *   getAll(function callback(Error|null, JSON records))
      *     </code>
      * </pre>
      *
@@ -230,8 +138,7 @@
      * get all the storage keys.
      *
      * <pre><code>
-     *   getKeys(function callback(Array keys))
-     *
+     *   getKeys(function callback(Error|null, Array keys))
      *     </code>
      * </pre>
      *
@@ -243,7 +150,8 @@
      */
 
     /**
-     * This method will be init the Driver.
+     * This method will be init the DriverManager.
+     *
      * Any initialization code should be place here
      *
      * @method init
@@ -253,8 +161,7 @@
      * Remove items from the storage
      *
      * <pre><code>
-     *   remove(String|Array) - remove the given key(s) from teh storage
-     *
+     *   remove(String|Array, function(Error/null)) - remove the given key(s) from the storage
      *     </code>
      * </pre>
      *
@@ -271,10 +178,12 @@
      * The method accept <b>any</b> of the following:
      *
      * <pre><code>
-     *     set(String key, String value) - Simple key value pairs
-     *     set(JSON   pairs)             - Collection of keys and values
-     *     set(Array  pairs)             - Array of key value pairs
-     *
+     *     set(String key, String value, Function callback) - Simple key value pairs
+     *     set(JSON   pairs, Function callback)             - Collection of keys and values
+     *     set(Array  pairs, Function callback)             - Array of key value pairs
+     *     
+     *     callback -> function(Error|null, arguments), 
+     *     
      *     </code>
      * </pre>
      *
@@ -290,5 +199,6 @@
      *
      */
 
-}.apply(jStorage, [jStorage, utils]);
+    ns.Driver = Driver;
 
+}.apply(jStore, [jStore, jStore.utils]);

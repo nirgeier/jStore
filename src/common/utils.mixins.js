@@ -1,9 +1,6 @@
 !function (ns, utils) {
     /**
-     * @module utils.Mixins
-     */
-
-    /**
+     * @module Helper
      * @class utils.Events
      * @extends Events
      */

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src&#x2F;common&#x2F;Events.js - jStorage</title>
+    <title>src&#x2F;common&#x2F;Events.js - Mood</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..&#x2F;assets/css/logo.png" title="jStorage"></h1>
+                <h1><img src="..&#x2F;assets/css/logo.png" title="Mood"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -43,13 +43,13 @@
             
                 <li><a href="..&#x2F;classes/Driver.html">Driver</a></li>
             
-                <li><a href="..&#x2F;classes/DriverStub.html">DriverStub</a></li>
+                <li><a href="..&#x2F;classes/Error.html">Error</a></li>
             
                 <li><a href="..&#x2F;classes/Events.html">Events</a></li>
             
-                <li><a href="..&#x2F;classes/Helper.html">Helper</a></li>
+                <li><a href="..&#x2F;classes/InMemory.html">InMemory</a></li>
             
-                <li><a href="..&#x2F;classes/Memory.html">Memory</a></li>
+                <li><a href="..&#x2F;classes/utils.html">utils</a></li>
             
                 <li><a href="..&#x2F;classes/utils.Bind.html">utils.Bind</a></li>
             
@@ -69,9 +69,7 @@
             
                 <li><a href="..&#x2F;modules/Driver.html">Driver</a></li>
             
-                <li><a href="..&#x2F;modules/Events.html">Events</a></li>
-            
-                <li><a href="..&#x2F;modules/utils.Mixins.html">utils.Mixins</a></li>
+                <li><a href="..&#x2F;modules/Helper.html">Helper</a></li>
             
             </ul>
         </div>
@@ -112,9 +110,10 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-!function(){
+!function () {
     &#x2F;**
-     * @module Events
+     * @module Helper
+     * @class Events
      *&#x2F;
 
     var compat = &#x27;createEvent&#x27; in document,
@@ -126,20 +125,20 @@
     &#x2F;&#x2F;=================
 
     &#x2F;&#x2F;utility function for cross-browser
-    function indexOf(arr, target){
+    function indexOf(arr, target) {
         var i, item;
         if (arr.indexOf) return arr.indexOf(target);
 
-        for(i=0; item = arr[i]; i++) if (item == target) return i;
+        for (i = 0; item = arr[i]; i++) if (item == target) return i;
 
         return -1;
     }
 
     &#x2F;&#x2F;handles warnings set by the library
-    function warn(error){
-        if (Events.strict){
+    function warn(error) {
+        if (Events.strict) {
             throw new Error(error);
-        }else if (&#x27;console&#x27; in window){
+        } else if (&#x27;console&#x27; in window) {
             if (console.error) console.error(error);
             else if (console.warn) console.warn(error);
             else console.log(error);
@@ -155,8 +154,8 @@
      *
      * @return {string}
      *&#x2F;
-    function removeOn(string){
-        return string.replace(&#x2F;^on([A-Z])&#x2F;, function(full, first){
+    function removeOn(string) {
+        return string.replace(&#x2F;^on([A-Z])&#x2F;, function (full, first) {
             return first.toLowerCase();
         });
     }
@@ -172,15 +171,15 @@
      *
      * @return {Object} data
      *&#x2F;
-    function getPseudo(string){
+    function getPseudo(string) {
         var match = string.match(pseudo_regex);
 
         if (string.split(&#x27;:&#x27;).length &gt; 2) warn(&quot;Library does not support multiple pseudo events&quot;);
 
         return {
-            name : match[1],
-            pseudo : match[2],
-            args : match[3]
+            name:match[1],
+            pseudo:match[2],
+            args:match[3]
         };
     }
 
@@ -194,7 +193,7 @@
      *
      * @return {Object} data
      *&#x2F;
-    function processType(type){
+    function processType(type) {
         return getPseudo(removeOn(type));
     }
 
@@ -216,13 +215,13 @@
      *
      * @return event object
      *&#x2F;
-    function createEvent(type, dis, args){
+    function createEvent(type, dis, args) {
         var ev;
 
-        if (compat){
+        if (compat) {
             ev = document.createEvent(&#x27;UIEvents&#x27;);
             ev.initUIEvent(type, false, false, window, 1);
-        }else{
+        } else {
             ev = {};
         }
 
@@ -232,7 +231,6 @@
 
         return ev;
     }
-
 
 
     &#x2F;**
@@ -245,17 +243,17 @@
      *
      * @param {Element} el element to use as event target. Optional
      *&#x2F;
-    Events = function Events(el){
+    Events = function Events(el) {
         var $this = this;
 
-        if (!compat){
+        if (!compat) {
             this.$events = {};
-        }else{
+        } else {
             this.$event_element = el || document.createElement(&#x27;events&#x27;);
         }
 
         this.$latched = {};
-        this.$once    = {};
+        this.$once = {};
 
         this.addEvent = addEvent;
         this.addEvents = addEvents;
@@ -266,11 +264,11 @@
 
         &#x2F;&#x2F;since this code removes the reference to the events provider,
         &#x2F;&#x2F;we want to make sure it runs after the rest of the loop is done.
-        this.addEvent(&#x27;destroy:delay(0)&#x27;,function(){
+        this.addEvent(&#x27;destroy:delay(0)&#x27;, function () {
             var names = &quot;$event_element $latched $events $once addEvent removeEvent addEventOnce fireLatchedEvent&quot;.split(&#x27; &#x27;),
                 i, name;
 
-            for (i=0; name = names[i]; i++) $this[name] = null;
+            for (i = 0; name = names[i]; i++) $this[name] = null;
         });
     };
 
@@ -299,39 +297,39 @@
      * @static
      *&#x2F;
     Events.Pseudoes = {
-        once : {
-            addEvent : function(type,fn){
+        once:{
+            addEvent:function (type, fn) {
                 return this.addEventOnce(type, fn);
             }
         },
 
-        latched : {
-            fireEvent : function(type, args){
-                return this.fireLatchedEvent(type,args);
+        latched:{
+            fireEvent:function (type, args) {
+                return this.fireLatchedEvent(type, args);
             }
         },
 
-        times : {
-            addEvent : function(type, fn, ammount){
+        times:{
+            addEvent:function (type, fn, ammount) {
                 var count = 0, $this = this;
 
-                this.addEvent(type, function times(){
+                this.addEvent(type, function times() {
                     fn.apply(null, arguments);
-                    count+=1;
-                    if (count == ammount) $this.removeEvent(type,times);
+                    count += 1;
+                    if (count == ammount) $this.removeEvent(type, times);
                 });
             }
         },
 
-        delay : {
-            addEvent : function(type, fn, delay){
-                this.addEvent(type, function(){
-                    setTimeout(fn,delay);
+        delay:{
+            addEvent:function (type, fn, delay) {
+                this.addEvent(type, function () {
+                    setTimeout(fn, delay);
                 });
             },
-            fireEvent : function(type, args, delay){
+            fireEvent:function (type, args, delay) {
                 var $this = this;
-                setTimeout(function(){
+                setTimeout(function () {
                     $this.fireEvent(type, args);
                 }, delay);
             }
@@ -342,43 +340,43 @@
     &#x2F;&#x2F; cross-browser utilities
     &#x2F;&#x2F;========================
 
-    function register(obj, type, fn){
-        if (compat){
-            obj.$event_element.addEventListener(type,fn,false);
-        }else{
+    function register(obj, type, fn) {
+        if (compat) {
+            obj.$event_element.addEventListener(type, fn, false);
+        } else {
             if (!obj.$events[type]) obj.$events[type] = [fn];
-            else if (obj.$events[type].indexOf(fn)==-1){
+            else if (obj.$events[type].indexOf(fn) == -1) {
                 obj.$evetns[type].push(fn);
             }
         }
     }
 
 
-    function dispatch(obj,type, ev){
+    function dispatch(obj, type, ev) {
         var i, fn;
 
-        if (compat){
+        if (compat) {
             obj.$event_element.dispatchEvent(ev);
-        }else{
-            for (i=0; fn = obj.$events[type]; i++){
-                fn.apply(null,[ev]);
+        } else {
+            for (i = 0; fn = obj.$events[type]; i++) {
+                fn.apply(null, [ev]);
             }
         }
     }
 
-    function remove(obj, type, fn){
+    function remove(obj, type, fn) {
         var index;
 
-        if (compat){
-            obj.$event_element.removeEventListener(type,fn,false);
-        }else{
+        if (compat) {
+            obj.$event_element.removeEventListener(type, fn, false);
+        } else {
             if (!obj.$events[type]) return;
 
-            index = indexOf(obj.$events[type],fn);
+            index = indexOf(obj.$events[type], fn);
 
-            if (index &lt;0) return;
+            if (index &lt; 0) return;
 
-            obj.$events[type].splice(index,1);
+            obj.$events[type].splice(index, 1);
         }
     }
 
@@ -397,25 +395,25 @@
      *
      * @chainable
      *&#x2F;
-    addEvent = function addEvent(type,fn){
+    addEvent = function addEvent(type, fn) {
         var data = processType(type),
             pseudo_fn = Events.Pseudoes[data.pseudo] &amp;&amp; Events.Pseudoes[data.pseudo].addEvent,
             args = this.$latched[data.name] &amp;&amp; this.$latched[data.name].args,
             ev;
 
-        if (pseudo_fn){
-            return pseudo_fn.apply(this,[data.name,fn,data.args]);
+        if (pseudo_fn) {
+            return pseudo_fn.apply(this, [data.name, fn, data.args]);
         }
 
-        register(this,data.name, fn);
+        register(this, data.name, fn);
 
-        if (this.$latched &amp;&amp; this.$latched[data.name]){
+        if (this.$latched &amp;&amp; this.$latched[data.name]) {
             ev = createEvent(data.name, this, args);
-            fn.apply(null,[ev]);
+            fn.apply(null, [ev]);
         }
 
         return this;
-     };
+    };
 
     &#x2F;**
      * Helper to add multiple events at once
@@ -426,10 +424,10 @@
      *
      * @chainable
      *&#x2F;
-    addEvents = function addEvents(events){
+    addEvents = function addEvents(events) {
         var type;
 
-        for (type in events) if (events.hasOwnProperty(type)){
+        for (type in events) if (events.hasOwnProperty(type)) {
             this.addEvent(type, events[type]);
         }
 
@@ -446,15 +444,15 @@
      *
      * @chainable
      *&#x2F;
-    fireEvent = function fireEvent(type, args){
+    fireEvent = function fireEvent(type, args) {
         var data = processType(type),
             pseudo_fn = Events.Pseudoes[data.pseudo] &amp;&amp; Events.Pseudoes[data.pseudo].fireEvent,
             ev, fn,
             once_arr,
             temp_arr;
 
-        if (pseudo_fn){
-            return pseudo_fn.call(this,data.name,args);
+        if (pseudo_fn) {
+            return pseudo_fn.call(this, data.name, args);
         }
 
         &#x2F;&#x2F;in case one of the callbacks will try and add another once event,
@@ -464,11 +462,11 @@
 
         ev = createEvent(data.name, this, args);
 
-        dispatch(this,data.name,ev);
+        dispatch(this, data.name, ev);
 
         if (!once_arr) return this;
 
-        while (fn = once_arr.pop()){
+        while (fn = once_arr.pop()) {
             this.removeEvent(data.name, fn, true);
         }
 
@@ -485,14 +483,14 @@
      *
      * @chainable
      *&#x2F;
-    removeEvent = function removeEvent(type, fn,no_once){
+    removeEvent = function removeEvent(type, fn, no_once) {
         var data = processType(type),
             index;
 
-        remove(this,data.name, fn);
+        remove(this, data.name, fn);
 
-        if (!no_once &amp;&amp; this.$once[data.name] &amp;&amp; (index = this.$once[data.name].indexOf(fn))&gt;-1){
-            this.$once[data.name].splice(index,1);
+        if (!no_once &amp;&amp; this.$once[data.name] &amp;&amp; (index = this.$once[data.name].indexOf(fn)) &gt; -1) {
+            this.$once[data.name].splice(index, 1);
         }
 
         return this;
@@ -508,12 +506,12 @@
      *
      * @chainable
      *&#x2F;
-    addEventOnce = function addEventOnce(type, fn){
+    addEventOnce = function addEventOnce(type, fn) {
         var $this = this,
             data = processType(type);
 
         if (!this.$once[data.name]) this.$once[data.name] = [];
-        if (this.$once[data.name].indexOf(fn) == -1){
+        if (this.$once[data.name].indexOf(fn) == -1) {
             this.$once[data.name].push(fn);
         }
 
@@ -530,17 +528,17 @@
      *
      * @chainable
      *&#x2F;
-    fireLatchedEvent = function fireLatchedEvent(type, args){
+    fireLatchedEvent = function fireLatchedEvent(type, args) {
         if (!this.$latched) this.$latched = {};
 
-        this.$latched[type] = {args : args};
-        this.fireEvent(type,args);
+        this.$latched[type] = {args:args};
+        this.fireEvent(type, args);
 
         return this;
-    };     
+    };
 
     &#x2F;&#x2F;expose Mixin to provided namespace
-    this.Events = Events;     
+    this.Events = Events;
 }.call(this);
 
 

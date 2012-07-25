@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>utils.CallbackGroup - jStorage</title>
+    <title>utils.CallbackGroup - Mood</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..&#x2F;assets/css/logo.png" title="jStorage"></h1>
+                <h1><img src="..&#x2F;assets/css/logo.png" title="Mood"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -43,13 +43,13 @@
             
                 <li><a href="..&#x2F;classes/Driver.html">Driver</a></li>
             
-                <li><a href="..&#x2F;classes/DriverStub.html">DriverStub</a></li>
+                <li><a href="..&#x2F;classes/Error.html">Error</a></li>
             
                 <li><a href="..&#x2F;classes/Events.html">Events</a></li>
             
-                <li><a href="..&#x2F;classes/Helper.html">Helper</a></li>
+                <li><a href="..&#x2F;classes/InMemory.html">InMemory</a></li>
             
-                <li><a href="..&#x2F;classes/Memory.html">Memory</a></li>
+                <li><a href="..&#x2F;classes/utils.html">utils</a></li>
             
                 <li><a href="..&#x2F;classes/utils.Bind.html">utils.Bind</a></li>
             
@@ -69,9 +69,7 @@
             
                 <li><a href="..&#x2F;modules/Driver.html">Driver</a></li>
             
-                <li><a href="..&#x2F;modules/Events.html">Events</a></li>
-            
-                <li><a href="..&#x2F;modules/utils.Mixins.html">utils.Mixins</a></li>
+                <li><a href="..&#x2F;modules/Helper.html">Helper</a></li>
             
             </ul>
         </div>
@@ -116,13 +114,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l362"><code>src&#x2F;common&#x2F;utils.js:362</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l377"><code>src&#x2F;common&#x2F;utils.js:377</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Events.html">Events</a>
+            Module: <a href="../modules/Helper.html">Helper</a>
         
     
 
@@ -186,7 +184,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l362"><code>src&#x2F;common&#x2F;utils.js:362</code></a>
+        <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l377"><code>src&#x2F;common&#x2F;utils.js:377</code></a>
         
         </p>
 
@@ -303,16 +301,14 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_bindParent">bindParent</a>
+                                <a href="#method_isArray">isArray</a>
 
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_onFontsLoad">onFontsLoad</a>
+                                <a href="#method_isJson">isJson</a>
 
                                 
                                 
@@ -341,8 +337,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_bindParent" class="method item">
-    <h3 class="name"><code>bindParent</code></h3>
+                    <div id="method_isArray" class="method item">
+    <h3 class="name"><code>isArray</code></h3>
 
     
         <div class="args">
@@ -350,19 +346,7 @@
             
                 <li class="arg">
                     
-                        <code>target</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>parent</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[use_directly]</code>
+                        <code>obj</code>
                     
                 </li>
             
@@ -371,10 +355,6 @@
     
 
     
-        <span class="returns-inline">
-            <span class="type">Function</span>
-        </span>
-    
 
     
 
@@ -382,8 +362,6 @@
 
     
 
-    
-        <span class="flag static">static</span>
     
 
     
@@ -401,7 +379,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l307"><code>src&#x2F;common&#x2F;utils.js:307</code></a>
+        <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l459"><code>src&#x2F;common&#x2F;utils.js:459</code></a>
         
         </p>
 
@@ -412,9 +390,8 @@
     </div>
 
     <div class="description">
-        <p>a syntax sugar for calling other object's methods on an object</p>
-
-<p>Returned function will function just like inherit's $parent, only that if you only pass it arguments it will call the constructor (like inherit#$construct)</p>
+        <p>This method will check to see if a give object is an array or not.<br/>
+We first try to see if we have the Array.isArray and if not we will add polyfill to support it.<br/></p>
     </div>
 
     
@@ -425,45 +402,110 @@
             
                 <li class="param">
                     
-                        <code class="param-name">target</code>
+                        <code class="param-name">obj</code>
                         <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>object</p>
+                        <ul>
+<li>The data we want to check if its Array or not</li>
+</ul>
                     </div>
 
                     
                 </li>
             
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_isJson" class="method item">
+    <h3 class="name"><code>isJson</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>data</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l471"><code>src&#x2F;common&#x2F;utils.js:471</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Check to see if given object is valid JSON.<br/>
+TODO: Make this more efficient. !!!!!</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
                 <li class="param">
                     
-                        <code class="param-name">parent</code>
+                        <code class="param-name">data</code>
                         <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>object</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[use_directly]</code>
-                        <span class="type">Bool</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>if set to true, will use parent directly, rather than use it's prototype</p>
+                        <ul>
+<li>The data we want to check if its a valid JSON or not</li>
+</ul>
                     </div>
 
                     
@@ -480,132 +522,11 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Function</span>:
+                        <span class="type">Boolean</span>:
                     
                 
             </div>
         </div>
-    
-
-    
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-                <p>this.parent = utils.bindParent(this, Foo);</p>
-
-<p>this.parent([some<em>arg]); //will call Foo - bound to obj
-   this.parent('bar',[some</em>arg]); //will call Foo.prototype.bar - bound to obj</p>
-            </div>
-        </div>
-    
-</div>
-
-                
-                    <div id="method_onFontsLoad" class="method item">
-    <h3 class="name"><code>onFontsLoad</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>fontFamiliesArray</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>fontsLoadedCallback</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l144"><code>src&#x2F;common&#x2F;utils.js:144</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>This function waits until all specified font-families loaded and then executes a callback function.
-Supplied font-families should be already defined in the document, by URL or base64.
-If after specific threshold time fonts still not loaded, callback will be invoked.</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">fontFamiliesArray</code>
-                        <span class="type">Array</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Array of font-families to test</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">fontsLoadedCallback</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Callback function to call after all font-families loaded</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
     
 
     
@@ -654,7 +575,7 @@ If after specific threshold time fonts still not loaded, callback will be invoke
             
         
         
-        <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l396"><code>src&#x2F;common&#x2F;utils.js:396</code></a>
+        <a href="..&#x2F;files&#x2F;src_common_utils.js.html#l411"><code>src&#x2F;common&#x2F;utils.js:411</code></a>
         
         </p>
 

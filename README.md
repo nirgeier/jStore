@@ -1,4 +1,4 @@
-jStorage
+jStore
 ========
 
 Cross browser local storage

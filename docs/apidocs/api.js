@@ -2,10 +2,10 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "Driver",
-        "DriverStub",
+        "Error",
         "Events",
-        "Helper",
-        "Memory",
+        "InMemory",
+        "utils",
         "utils.Bind",
         "utils.CallbackGroup",
         "utils.Delegate",
@@ -15,8 +15,7 @@ YUI.add("yuidoc-meta", function(Y) {
     ],
     "modules": [
         "Driver",
-        "Events",
-        "utils.Mixins"
+        "Helper"
     ],
     "allModules": [
         {
@@ -24,12 +23,8 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "Driver"
         },
         {
-            "displayName": "Events",
-            "name": "Events"
-        },
-        {
-            "displayName": "utils.Mixins",
-            "name": "utils.Mixins"
+            "displayName": "Helper",
+            "name": "Helper"
         }
     ]
 } };
