@@ -1,119 +1,136 @@
-/**
- * This class is the implementation of InMemory storage.<br/>
- * The InMemory storage store all the data as Object (JSON) as key:value.<br/>
- * <br/>
- *
- * TODO: Right now we have unknown memory limitation<br/>
- *
- * @constructor
- * @class InMemory
- * @extends Driver
- **/
-jStore.DriverManager.register('InMemory', {
+var jStore = jStore || {};
+
+!function (ns, utils) {
+
+    var logger = ns.Logger.getLogger("InMemory", ns.Logger.logLevels.DEBUG)
 
     /**
-     * The InMemory storage use Object (JSON) to store all the data.<br/>
+     * This class is the implementation of InMemory storage.<br/>
+     * The InMemory storage store all the data as Object (JSON) as key:value.<br/>
+     * <br/>
      *
-     * @property this._storage
-     * @type {Object}
-     * @private
-     */
-    _storage:{},
-
-    /**
-     * The driver name.
+     * TODO: Right now we have unknown memory limitation<br/>
      *
-     * @property name
-     * @type {String}
-     * @default 'Memory'
-     */
-    name:'InMemory',
+     * @constructor
+     * @class InMemory
+     * @extends Driver
+     **/
+    jStore.Driver.register('InMemory', {
 
-    clear:function () {
-        console.log('clear');
-        this._storage = {};
-    },
+        /**
+         * The InMemory storage use Object (JSON) to store all the data.<br/>
+         *
+         * @property this._storage
+         * @type {Object}
+         * @private
+         */
+        _storage:{},
 
-    each:function (cb) {
-        console.log('each');
-        var key;
+        name:'InMemory',
 
-        // Verify that the callback is function
-        if (typeof  cb !== 'function') {
-            throw 'Missing required callback function.';
-        }
-
-        for (key in this._storage) {
-            cb(key, this._storage[key]);
-        }
-    },
-
-    exists:function (key) {
-        console.log('exist');
-        return !!this._storage[key];
-    },
-
-    get:function (keys) {
-        console.log('get');
-        return this._storage[keys];
-    },
-
-    getAll:function () {
-        console.log('getAll');
-        return this._storage;
-    },
-
-    getKeys:function () {
-        console.log('getKeys');
-        var key, keys = [];
-        for (key in this._storage) {
-            keys.push(key);
-        }
-
-        return keys;
-    },
-
-    init:function () {
-
-    },
-
-    remove:function (keys) {
-        var key;
-
-        // Check for set(String,String)
-        if (typeof keys === 'string') {
-            console.log('remove(String): ', keys);
-            delete this._storage[keys];
-        } else if (jStore.utils.isArray(keys)) {
-            console.log('remove(Array): ', keys);
-            for (key in keys) {
-                if (keys.hasOwnProperty(key)) {
-                    delete this._storage[keys[key]];
-                }
+        clear:function (callback) {
+            console.log('clear');
+            this._storage = {};
+            if (callback) {
+                callback(null);
             }
-        }
-    },
+            return this;
+        },
 
-    set:function (arg1, arg2) {
+        each:function (callback) {
+            console.log('each');
+            var key;
 
-        var key;
-
-        // Check for set(String,String)
-        if (typeof arg2 === 'string') {
-            console.log('set String: ', arg1, '=' + arg2);
-            this._storage[arg1] = arg2;
-        } else if (jStore.utils.isArray(arg1) || jStore.utils.isJSON(arg1)) {
-            console.log('set(Array||JSON): ', arg1);
-            for (key in arg1) {
-                if (arg1.hasOwnProperty(key)) {
-                    this._storage[key] = arg1[key];
-                }
+            // Verify that the callback is function
+            if (typeof  callback !== 'function') {
+                this.fireEvent('Error', 'Missing required callback function.');
+                return this;
             }
+
+            for (key in this._storage) {
+                callback(null, key, this._storage[key]);
+            }
+        },
+
+        exists:function (key, callback) {
+            console.log('exist');
+            callback(null, !!this._storage[key]);
+            return this;
+        },
+
+        get:function (keyOrArray, callback) {
+            console.log('get');
+            var $this = this, values = {};
+
+            // check to see if the first argument is String or array
+            if (Array.isArray(keyOrArray)) {
+                keyOrArray.forEach(function (element, index, array) {
+                    values[element] = $this._storage[element];
+                });
+                callback(null, values);
+            } else {
+                // return the required value
+                callback(null, keyOrArray, $this._storage[keyOrArray])
+            }
+            return this;
+        },
+
+        getAll:function (callback) {
+            console.log('getAll');
+            callback(null, this._storage);
+            return this;
+        },
+
+        getKeys:function (callback) {
+            console.log('getKeys');
+            callback(null, Object.keys(this._storage));
+            return this;
+        },
+
+        init:function () {
+
+        },
+
+        remove:function (keyOrArray, callback) {
+            var $this = this, key;
+
+            // check to see if teh first argument is String or array
+            if (Array.isArray(keyOrArray)) {
+                keyOrArray.forEach(function (element, index, array) {
+                    delete $this._storage[element];
+                });
+            } else {
+                // return the required value
+                delete $this._storage[keyOrArray];
+            }
+
+            if (callback) {
+                callback();
+            }
+            return this;
+        },
+
+        set:function (keyOrMap, value) {
+
+            var $this = this;
+
+            // Check for set(String,String)
+            if (value) {
+                console.log('set String: ', keyOrMap, '=' + value);
+                this._storage[keyOrMap] = value;
+            } else {
+                // Handle Array
+                console.log('set Array : ', keyOrMap);
+                Object.keys(keyOrMap).forEach(function (element, index, array) {
+                    $this._storage[element] = keyOrMap[element];
+                });
+            }
+        },
+
+        test:function () {
+            return false;
         }
-    },
 
-    test:function () {
-        return true;
-    }
+    });
 
-});
+}.apply(jStore, [jStore, jStore.utils]);

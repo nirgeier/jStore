@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="../src/common/polyfills.js"></script>
+    <script src="../src/common/Error.js"></script>
+    <script src="../src/Events/Events.js"></script>
+    <script src="../src/common/Logger.js"></script>
+    <script src="../src/common/utils.js"></script>
+    <script src="../src/drivers/Driver.js"></script>
+    <script src="../src/drivers/InMemory.js"></script>
+    <script src="../src/drivers/DomStorage.js"></script>
+</head>
+<body>
+
+<script>
+    var driver = jStore.Driver.choose();
+    
+    function printAll() {
+        // Print all the records
+        driver.each(function (error, key, value) {
+            console.log('Each -> ', key + ':' + value);
+        });
+    }
+
+    // Set Key=value
+    driver.set('key', 'value');
+    driver.set('key1', 'value1');
+    driver.set('key2', 'value2');
+
+    printAll();
+
+    var arr1 = {};
+    // Add duplicate 'key' as key
+    arr1['key'] = 'arr0';
+    arr1['a1'] = 'arr1';
+    arr1['a2'] = 'arr2';
+
+    // Set Map
+    driver.set(arr1);
+
+    printAll();
+
+    var json1 = {
+        a:'jsona',
+        b:'jsonb',
+        c:'jsonc'
+    };
+
+    // Print all the data in the storage
+    printAll();
+
+    driver.set(json1);
+
+    // Check to exists and then remove and check again
+    driver.exists('key1', function (error, isExist) {
+        console.log('key1 exists: ', isExist);
+    });
+
+    driver.getAll(function (error, items) {
+        console.log('getAll: ', items);
+    });
+
+    driver.getKeys(function (error, keys) {
+        console.log('getAll: ', keys);
+    });
+
+    // remove few records
+    driver.remove('a');
+    driver.remove(['a', 'c', 'key1']);
+
+    // Check to exists and then remove and check again
+    driver.exists('key1', function (error, isExist) {
+        console.log('key1 exists: ', isExist);
+    });
+
+    driver.getAll(function (error, items) {
+        console.log('getAll: ', items);
+    });
+
+    driver.getKeys(function (error, keys) {
+        console.log('getAll: ', keys);
+    });
+
+    // Print all the data in the storage
+    printAll();
+
+    driver.clear();
+
+    // Print all the data in the storage
+    printAll();
+
+</script>
+
+</body>
+</html>
