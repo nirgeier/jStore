@@ -2,7 +2,7 @@ var jStore = jStore || {};
 
 !function (ns, utils) {
 
-    var logger = ns.Logger.getLogger("InMemory", ns.Logger.logLevels.DEBUG)
+    var logger = ns.Logger.getLogger("InMemory", ns.Logger.logLevels.DEBUG);
 
     /**
      * This class is the implementation of InMemory storage.<br/>
@@ -20,7 +20,7 @@ var jStore = jStore || {};
         /**
          * The InMemory storage use Object (JSON) to store all the data.<br/>
          *
-         * @property this._storage
+         * @property _storage
          * @type {Object}
          * @private
          */
@@ -29,7 +29,7 @@ var jStore = jStore || {};
         name:'InMemory',
 
         clear:function (callback) {
-            console.log('clear');
+            logger.log('clear');
             this._storage = {};
             if (callback) {
                 callback(null);
@@ -38,7 +38,7 @@ var jStore = jStore || {};
         },
 
         each:function (callback) {
-            console.log('each');
+            logger.log('each');
             var key;
 
             // Verify that the callback is function
@@ -53,18 +53,18 @@ var jStore = jStore || {};
         },
 
         exists:function (key, callback) {
-            console.log('exist');
+            logger.log('exist');
             callback(null, !!this._storage[key]);
             return this;
         },
 
         get:function (keyOrArray, callback) {
-            console.log('get');
+            logger.log('get');
             var $this = this, values = {};
 
             // check to see if the first argument is String or array
             if (Array.isArray(keyOrArray)) {
-                keyOrArray.forEach(function (element, index, array) {
+                keyOrArray.forEach(function (element) {
                     values[element] = $this._storage[element];
                 });
                 callback(null, values);
@@ -76,13 +76,13 @@ var jStore = jStore || {};
         },
 
         getAll:function (callback) {
-            console.log('getAll');
+            logger.log('getAll');
             callback(null, this._storage);
             return this;
         },
 
         getKeys:function (callback) {
-            console.log('getKeys');
+            logger.log('getKeys');
             callback(null, Object.keys(this._storage));
             return this;
         },
@@ -92,11 +92,11 @@ var jStore = jStore || {};
         },
 
         remove:function (keyOrArray, callback) {
-            var $this = this, key;
+            var $this = this;
 
             // check to see if teh first argument is String or array
             if (Array.isArray(keyOrArray)) {
-                keyOrArray.forEach(function (element, index, array) {
+                keyOrArray.forEach(function (element) {
                     delete $this._storage[element];
                 });
             } else {
@@ -116,19 +116,19 @@ var jStore = jStore || {};
 
             // Check for set(String,String)
             if (value) {
-                console.log('set String: ', keyOrMap, '=' + value);
+                logger.log('set String: ', keyOrMap, '=' + value);
                 this._storage[keyOrMap] = value;
             } else {
                 // Handle Array
-                console.log('set Array : ', keyOrMap);
-                Object.keys(keyOrMap).forEach(function (element, index, array) {
+                logger.log('set Array : ', keyOrMap);
+                Object.keys(keyOrMap).forEach(function (element) {
                     $this._storage[element] = keyOrMap[element];
                 });
             }
         },
 
         test:function () {
-            return false;
+            return true;
         }
 
     });

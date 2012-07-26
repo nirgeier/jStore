@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Driver - Mood</title>
+    <title>Driver - jStore</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..&#x2F;assets/css/logo.png" title="Mood"></h1>
+                <h1><img src="..&#x2F;assets/css/logo.png" title="jStore"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -49,17 +49,7 @@
             
                 <li><a href="..&#x2F;classes/InMemory.html">InMemory</a></li>
             
-                <li><a href="..&#x2F;classes/utils.html">utils</a></li>
-            
                 <li><a href="..&#x2F;classes/utils.Bind.html">utils.Bind</a></li>
-            
-                <li><a href="..&#x2F;classes/utils.CallbackGroup.html">utils.CallbackGroup</a></li>
-            
-                <li><a href="..&#x2F;classes/utils.Delegate.html">utils.Delegate</a></li>
-            
-                <li><a href="..&#x2F;classes/utils.Events.html">utils.Events</a></li>
-            
-                <li><a href="..&#x2F;classes/utils.KeyNav.html">utils.KeyNav</a></li>
             
                 <li><a href="..&#x2F;classes/utils.Options.html">utils.Options</a></li>
             
@@ -68,6 +58,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="..&#x2F;modules/Driver.html">Driver</a></li>
+            
+                <li><a href="..&#x2F;modules/Events.html">Events</a></li>
             
                 <li><a href="..&#x2F;modules/Helper.html">Helper</a></li>
             
@@ -114,7 +106,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l11"><code>src&#x2F;drivers&#x2F;Driver.js:11</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l12"><code>src&#x2F;drivers&#x2F;Driver.js:12</code></a>
         </div>
     
 
@@ -130,12 +122,9 @@
 
 
 <div class="box intro">
-    <p>This is the skeleton DriverManager class.<br/>
+    <p>This is the skeleton Driver class.<br/>
 The class will be used as teh base class for all the drivers implementation.<br/>
 Here we define the API for the drivers<br/></p>
-
-<p>List of the required methods: <br/>
-<b>clear each exists get getAll getKeys init remove set test</b></p>
 </div>
 
 
@@ -173,7 +162,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l11"><code>src&#x2F;drivers&#x2F;Driver.js:11</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l12"><code>src&#x2F;drivers&#x2F;Driver.js:12</code></a>
         
         </p>
 
@@ -222,6 +211,15 @@ Here we define the API for the drivers<br/></p>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
+                                <a href="#method_choose">choose</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_clear">clear</a>
 
                                 
@@ -236,7 +234,7 @@ Here we define the API for the drivers<br/></p>
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_exist">exist</a>
+                                <a href="#method_exists">exists</a>
 
                                 
                                 
@@ -271,6 +269,15 @@ Here we define the API for the drivers<br/></p>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_register">register</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_remove">remove</a>
 
                                 
@@ -295,6 +302,15 @@ Here we define the API for the drivers<br/></p>
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
+                                <a href="#property_drivers">drivers</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_name">name</a>
 
                                 
@@ -313,6 +329,120 @@ Here we define the API for the drivers<br/></p>
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_choose" class="method item">
+    <h3 class="name"><code>choose</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>options</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Driver.html" class="crosslink">Driver</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l274"><code>src&#x2F;drivers&#x2F;Driver.js:274</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>chooses which driver to use and creates it</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">options</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>options to pass to the driver's constructor</p>
+
+<p>If we pass on a list of preferred drivers we test them in the given order
+options:{
+    drivers:[
+     'InMemory',
+     'DomStorage'
+    ]
+}</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Driver.html" class="crosslink">Driver</a></span>:
+                    
+                    the chosen driver
+                
+            </div>
+        </div>
+    
+
+    
+</div>
 
                 
                     <div id="method_clear" class="method item">
@@ -361,7 +491,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l47"><code>src&#x2F;drivers&#x2F;Driver.js:47</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l43"><code>src&#x2F;drivers&#x2F;Driver.js:43</code></a>
         
         </p>
 
@@ -460,7 +590,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l62"><code>src&#x2F;drivers&#x2F;Driver.js:62</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l61"><code>src&#x2F;drivers&#x2F;Driver.js:61</code></a>
         
         </p>
 
@@ -513,8 +643,8 @@ Here we define the API for the drivers<br/></p>
 </div>
 
                 
-                    <div id="method_exist" class="method item">
-    <h3 class="name"><code>exist</code></h3>
+                    <div id="method_exists" class="method item">
+    <h3 class="name"><code>exists</code></h3>
 
     
         <div class="args">
@@ -569,7 +699,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l78"><code>src&#x2F;drivers&#x2F;Driver.js:78</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l80"><code>src&#x2F;drivers&#x2F;Driver.js:80</code></a>
         
         </p>
 
@@ -583,8 +713,7 @@ Here we define the API for the drivers<br/></p>
         <p>Check to see if the given key already exist in the Storage</p>
 
 <pre class="code"><code class="prettyprint">
-  exists(String key, function callback(Error|null, String key, String value) - fetch single/multiple record
-
+  exists(String key, function callback(Error|null, boolean)
 </code>
 </pre>
     </div>
@@ -715,7 +844,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l97"><code>src&#x2F;drivers&#x2F;Driver.js:97</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l101"><code>src&#x2F;drivers&#x2F;Driver.js:101</code></a>
         
         </p>
 
@@ -729,8 +858,7 @@ Here we define the API for the drivers<br/></p>
         <p>Retrieve item or items from the storage.</p>
 
 <pre class="code"><code class="prettyprint">
-  get(String|Array, function callback(Error|null, String key, String value)  - fetch single/multiple record
-
+  get(String|Array, function callback(Error|null, [String key, String value] | Object)  - fetch single/multiple record
 </code>
 </pre>
     </div>
@@ -868,7 +996,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l121"><code>src&#x2F;drivers&#x2F;Driver.js:121</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l127"><code>src&#x2F;drivers&#x2F;Driver.js:127</code></a>
         
         </p>
 
@@ -879,10 +1007,10 @@ Here we define the API for the drivers<br/></p>
     </div>
 
     <div class="description">
-        <p>get all the storage items.</p>
+        <p>get all items.</p>
 
 <pre class="code"><code class="prettyprint">
-  getAll(function callback(Error|null, JSON records))
+  getAll(function callback(Error|null, Object records))
     </code>
 </pre>
     </div>
@@ -979,7 +1107,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l137"><code>src&#x2F;drivers&#x2F;Driver.js:137</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l146"><code>src&#x2F;drivers&#x2F;Driver.js:146</code></a>
         
         </p>
 
@@ -990,7 +1118,7 @@ Here we define the API for the drivers<br/></p>
     </div>
 
     <div class="description">
-        <p>get all the storage keys.</p>
+        <p>get all keys.</p>
 
 <pre class="code"><code class="prettyprint">
   getKeys(function callback(Error|null, Array keys))
@@ -1063,7 +1191,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l152"><code>src&#x2F;drivers&#x2F;Driver.js:152</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l164"><code>src&#x2F;drivers&#x2F;Driver.js:164</code></a>
         
         </p>
 
@@ -1074,13 +1202,141 @@ Here we define the API for the drivers<br/></p>
     </div>
 
     <div class="description">
-        <p>This method will be init the DriverManager.</p>
+        <p>This method will be init the Driver.</p>
 
 <p>Any initialization code should be place here</p>
     </div>
 
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method_register" class="method item">
+    <h3 class="name"><code>register</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>props</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Driver.html" class="crosslink">Driver</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l238"><code>src&#x2F;drivers&#x2F;Driver.js:238</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Registers a driver.<br/>
+A driver must always have a <b>test</b> method<br/></p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">props</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>a list of methods and properties for the new driver</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Driver.html" class="crosslink">Driver</a></span>:
+                    
+                    the new driver
+                
+            </div>
+        </div>
     
 
     
@@ -1097,6 +1353,12 @@ Here we define the API for the drivers<br/></p>
                 <li class="arg">
                     
                         <code class="optional">[key&#x2F;keys]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[optional]</code>
                     
                 </li>
             
@@ -1133,7 +1395,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l160"><code>src&#x2F;drivers&#x2F;Driver.js:160</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l174"><code>src&#x2F;drivers&#x2F;Driver.js:174</code></a>
         
         </p>
 
@@ -1147,7 +1409,7 @@ Here we define the API for the drivers<br/></p>
         <p>Remove items from the storage</p>
 
 <pre class="code"><code class="prettyprint">
-  remove(String|Array, function(Error/null)) - remove the given key(s) from the storage
+  remove(String|Array [, function(Error|null)]) - remove the given key(s) from the storage
     </code>
 </pre>
     </div>
@@ -1176,6 +1438,22 @@ Here we define the API for the drivers<br/></p>
                     
                 </li>
             
+                <li class="param">
+                    
+                        <code class="param-name optional">[optional]</code>
+                        <span class="type">Callback</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                    
+                </li>
+            
             </ul>
         </div>
     
@@ -1195,19 +1473,7 @@ Here we define the API for the drivers<br/></p>
             
                 <li class="arg">
                     
-                        <code class="optional">[key,value]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[obj]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[Array]</code>
+                        <code>{[String,</code>
                     
                 </li>
             
@@ -1244,7 +1510,7 @@ Here we define the API for the drivers<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l175"><code>src&#x2F;drivers&#x2F;Driver.js:175</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l193"><code>src&#x2F;drivers&#x2F;Driver.js:193</code></a>
         
         </p>
 
@@ -1260,12 +1526,7 @@ If the key is already in the store it will be updated.
 The method accept <b>any</b> of the following:</p>
 
 <pre class="code"><code class="prettyprint">
-    set(String key, String value, Function callback) - Simple key value pairs
-    set(JSON   pairs, Function callback)             - Collection of keys and values
-    set(Array  pairs, Function callback)             - Array of key value pairs
-
-    callback -> function(Error|null, arguments), 
-
+    set([String, String] |Map)
     </code>
 </pre>
     </div>
@@ -1278,53 +1539,14 @@ The method accept <b>any</b> of the following:</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[key,value]</code>
-                        <span class="type">String,String</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">{[String,</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <ul>
-<li>Simple key &amp; value pair</li>
-</ul>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[obj]</code>
-                        <span class="type">JSON</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>JSON containing set of key values pairs</li>
-</ul>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[Array]</code>
-                        <span class="type">Array</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>Array of keys and values</li>
-</ul>
+                        <p>String] |Object) - Simple key &amp; value pair or map of key values pairs</p>
                     </div>
 
                     
@@ -1346,6 +1568,52 @@ The method accept <b>any</b> of the following:</p>
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_drivers" class="property item">
+    <h3 class="name"><code>drivers</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l229"><code>src&#x2F;drivers&#x2F;Driver.js:229</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>List of registered drivers</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="property_name" class="property item">
@@ -1371,7 +1639,7 @@ The method accept <b>any</b> of the following:</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l40"><code>src&#x2F;drivers&#x2F;Driver.js:40</code></a>
+        <a href="..&#x2F;files&#x2F;src_drivers_Driver.js.html#l35"><code>src&#x2F;drivers&#x2F;Driver.js:35</code></a>
         
         </p>
 

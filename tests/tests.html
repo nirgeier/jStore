@@ -14,8 +14,18 @@
 <body>
 
 <script>
-    var driver = jStore.Driver.choose();
-    
+    var driver;
+
+    // Choose driver method
+    driver = jStore.Driver.choose();
+    console.log('driver.choose [default]: ', driver.name);
+
+    driver = jStore.Driver.choose({drivers:['InMemory', 'DomStorage']});
+    console.log('driver.choose [InMemory]: ', driver.name);
+
+    driver = jStore.Driver.choose({drivers:['DomStorage', 'InMemory']});
+    console.log('driver.choose [DomStorage]: ', driver.name);
+
     function printAll() {
         // Print all the records
         driver.each(function (error, key, value) {

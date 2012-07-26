@@ -1,8 +1,8 @@
 var jStore = jStore || {};
 
-!function (ns, utils) {
+!function (ns) {
 
-    var logger = ns.Logger.getLogger("DomStorage", ns.Logger.logLevels.DEBUG)
+    var logger = ns.Logger.getLogger("DomStorage", ns.Logger.logLevels.DEBUG);
 
     /**
      * This class is the implementation of InMemory storage.<br/>
@@ -17,10 +17,10 @@ var jStore = jStore || {};
      **/
     jStore.Driver.register('DomStorage', {
 
-        name:'LocalStorage',
+        name:'DomStorage',
 
         clear:function (callback) {
-            console.log('clear');
+            logger.log('clear');
             localStorage.clear();
             if (callback) {
                 callback(null);
@@ -29,8 +29,8 @@ var jStore = jStore || {};
         },
 
         each:function (callback) {
-            console.log('each');
-            var keys, key;
+            logger.log('each');
+            var keys;
 
             // Verify that the callback is function
             if (typeof callback !== 'function') {
@@ -49,18 +49,18 @@ var jStore = jStore || {};
         },
 
         exists:function (key, callback) {
-            console.log('exists');
+            logger.log('exists');
             callback(null, !!localStorage[key]);
             return this;
         },
 
         get:function (keyOrArray, callback) {
-            console.log('get');
+            logger.log('get');
             var values = {};
 
             // check to see if the first argument is String or array
             if (Array.isArray(keyOrArray)) {
-                keyOrArray.forEach(function (element, index, array) {
+                keyOrArray.forEach(function (element) {
                     values[element] = localStorage[element];
                 });
                 callback(null, values);
@@ -72,13 +72,13 @@ var jStore = jStore || {};
         },
 
         getAll:function (callback) {
-            console.log('getAll');
+            logger.log('getAll');
             callback(null, localStorage);
             return this;
         },
 
         getKeys:function (callback) {
-            console.log('getKeys');
+            logger.log('getKeys');
             callback(null, Object.keys(localStorage));
             return this;
         },
@@ -88,11 +88,10 @@ var jStore = jStore || {};
         },
 
         remove:function (keyOrArray, callback) {
-            var key;
-
+            
             // check to see if teh first argument is String or array
             if (Array.isArray(keyOrArray)) {
-                keyOrArray.forEach(function (element, index, array) {
+                keyOrArray.forEach(function (element) {
                     localStorage.removeItem(element);
                 });
             } else {
@@ -114,12 +113,12 @@ var jStore = jStore || {};
             try {
                 // Check for set(String,String)
                 if (value) {
-                    console.log('set String: ', keyOrMap, '=' + value);
+                    logger.log('set String: ', keyOrMap, '=' + value);
                     localStorage.setItem(keyOrMap, value);
                 } else {
                     // Handle Array
-                    console.log('set Array : ', keyOrMap);
-                    Object.keys(keyOrMap).forEach(function (element, index, array) {
+                    logger.log('set Array : ', keyOrMap);
+                    Object.keys(keyOrMap).forEach(function (element) {
                         localStorage.setItem(element, keyOrMap[element]);
                     });
                 }
@@ -135,18 +134,18 @@ var jStore = jStore || {};
             return !!localStorage && function () {
                 // in mobile safari if safe browsing is enabled, window.storage
                 // is defined but setItem calls throw exceptions.
-                var success = true
-                var value = Math.random()
+                var success = true;
+                var value = Math.random();
                 try {
-                    localStorage.setItem(value, value)
+                    localStorage.setItem(value, value);
                 } catch (e) {
-                    success = false
+                    success = false;
                 }
-                localStorage.removeItem(value)
-                return success
+                localStorage.removeItem(value);
+                return success;
             }()
         }
 
     });
 
-}.apply(jStore, [jStore, jStore.utils]);
+}.apply(jStore, [jStore]);

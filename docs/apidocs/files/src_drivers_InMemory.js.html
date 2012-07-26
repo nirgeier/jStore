@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src&#x2F;drivers&#x2F;InMemory.js - Mood</title>
+    <title>src&#x2F;drivers&#x2F;InMemory.js - jStore</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..&#x2F;assets/css/logo.png" title="Mood"></h1>
+                <h1><img src="..&#x2F;assets/css/logo.png" title="jStore"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -49,17 +49,7 @@
             
                 <li><a href="..&#x2F;classes/InMemory.html">InMemory</a></li>
             
-                <li><a href="..&#x2F;classes/utils.html">utils</a></li>
-            
                 <li><a href="..&#x2F;classes/utils.Bind.html">utils.Bind</a></li>
-            
-                <li><a href="..&#x2F;classes/utils.CallbackGroup.html">utils.CallbackGroup</a></li>
-            
-                <li><a href="..&#x2F;classes/utils.Delegate.html">utils.Delegate</a></li>
-            
-                <li><a href="..&#x2F;classes/utils.Events.html">utils.Events</a></li>
-            
-                <li><a href="..&#x2F;classes/utils.KeyNav.html">utils.KeyNav</a></li>
             
                 <li><a href="..&#x2F;classes/utils.Options.html">utils.Options</a></li>
             
@@ -68,6 +58,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="..&#x2F;modules/Driver.html">Driver</a></li>
+            
+                <li><a href="..&#x2F;modules/Events.html">Events</a></li>
             
                 <li><a href="..&#x2F;modules/Helper.html">Helper</a></li>
             
@@ -110,125 +102,143 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-&#x2F;**
- * This class is the implementation of InMemory storage.&lt;br&#x2F;&gt;
- * The InMemory storage store all the data as Object (JSON) as key:value.&lt;br&#x2F;&gt;
- * &lt;br&#x2F;&gt;
- *
- * TODO: Right now we have unknown memory limitation&lt;br&#x2F;&gt;
- *
- * @constructor
- * @class InMemory
- * @extends Driver
- **&#x2F;
-jStore.DriverManager.register(&#x27;InMemory&#x27;, {
+var jStore = jStore || {};
+
+!function (ns, utils) {
+
+    var logger = ns.Logger.getLogger(&quot;InMemory&quot;, ns.Logger.logLevels.DEBUG)
 
     &#x2F;**
-     * The InMemory storage use Object (JSON) to store all the data.&lt;br&#x2F;&gt;
+     * This class is the implementation of InMemory storage.&lt;br&#x2F;&gt;
+     * The InMemory storage store all the data as Object (JSON) as key:value.&lt;br&#x2F;&gt;
+     * &lt;br&#x2F;&gt;
      *
-     * @property this._storage
-     * @type {Object}
-     * @private
-     *&#x2F;
-    _storage:{},
-
-    &#x2F;**
-     * The driver name.
+     * TODO: Right now we have unknown memory limitation&lt;br&#x2F;&gt;
      *
-     * @property name
-     * @type {String}
-     * @default &#x27;Memory&#x27;
-     *&#x2F;
-    name:&#x27;InMemory&#x27;,
+     * @constructor
+     * @class InMemory
+     * @extends Driver
+     **&#x2F;
+    jStore.Driver.register(&#x27;InMemory&#x27;, {
 
-    clear:function () {
-        console.log(&#x27;clear&#x27;);
-        this._storage = {};
-    },
+        &#x2F;**
+         * The InMemory storage use Object (JSON) to store all the data.&lt;br&#x2F;&gt;
+         *
+         * @property this._storage
+         * @type {Object}
+         * @private
+         *&#x2F;
+        _storage:{},
 
-    each:function (cb) {
-        console.log(&#x27;each&#x27;);
-        var key;
+        name:&#x27;InMemory&#x27;,
 
-        &#x2F;&#x2F; Verify that the callback is function
-        if (typeof  cb !== &#x27;function&#x27;) {
-            throw &#x27;Missing required callback function.&#x27;;
-        }
-
-        for (key in this._storage) {
-            cb(key, this._storage[key]);
-        }
-    },
-
-    exists:function (key) {
-        console.log(&#x27;exist&#x27;);
-        return !!this._storage[key];
-    },
-
-    get:function (keys) {
-        console.log(&#x27;get&#x27;);
-        return this._storage[keys];
-    },
-
-    getAll:function () {
-        console.log(&#x27;getAll&#x27;);
-        return this._storage;
-    },
-
-    getKeys:function () {
-        console.log(&#x27;getKeys&#x27;);
-        var key, keys = [];
-        for (key in this._storage) {
-            keys.push(key);
-        }
-
-        return keys;
-    },
-
-    init:function () {
-
-    },
-
-    remove:function (keys) {
-        var key;
-
-        &#x2F;&#x2F; Check for set(String,String)
-        if (typeof keys === &#x27;string&#x27;) {
-            console.log(&#x27;remove(String): &#x27;, keys);
-            delete this._storage[keys];
-        } else if (ns.utils.isArray(keys)) {
-            console.log(&#x27;remove(Array): &#x27;, keys);
-            for (key in keys) {
-                if (keys.hasOwnProperty(key)) {
-                    delete this._storage[keys[key]];
-                }
+        clear:function (callback) {
+            logger.log(&#x27;clear&#x27;);
+            this._storage = {};
+            if (callback) {
+                callback(null);
             }
-        }
-    },
+            return this;
+        },
 
-    set:function (arg1, arg2) {
+        each:function (callback) {
+            logger.log(&#x27;each&#x27;);
+            var key;
 
-        var key;
-
-        &#x2F;&#x2F; Check for set(String,String)
-        if (typeof arg2 === &#x27;string&#x27;) {
-            console.log(&#x27;set String: &#x27;, arg1, &#x27;=&#x27; + arg2);
-            this._storage[arg1] = arg2;
-        } else if (ns.utils.isArray(arg1) || ns.Helper.isJSON(arg1)) {
-            console.log(&#x27;set(Array||JSON): &#x27;, arg1);
-            for (key in arg1) {
-                if (arg1.hasOwnProperty(key)) {
-                    this._storage[key] = arg1[key];
-                }
+            &#x2F;&#x2F; Verify that the callback is function
+            if (typeof  callback !== &#x27;function&#x27;) {
+                this.fireEvent(&#x27;Error&#x27;, &#x27;Missing required callback function.&#x27;);
+                return this;
             }
+
+            for (key in this._storage) {
+                callback(null, key, this._storage[key]);
+            }
+        },
+
+        exists:function (key, callback) {
+            logger.log(&#x27;exist&#x27;);
+            callback(null, !!this._storage[key]);
+            return this;
+        },
+
+        get:function (keyOrArray, callback) {
+            logger.log(&#x27;get&#x27;);
+            var $this = this, values = {};
+
+            &#x2F;&#x2F; check to see if the first argument is String or array
+            if (Array.isArray(keyOrArray)) {
+                keyOrArray.forEach(function (element, index, array) {
+                    values[element] = $this._storage[element];
+                });
+                callback(null, values);
+            } else {
+                &#x2F;&#x2F; return the required value
+                callback(null, keyOrArray, $this._storage[keyOrArray])
+            }
+            return this;
+        },
+
+        getAll:function (callback) {
+            logger.log(&#x27;getAll&#x27;);
+            callback(null, this._storage);
+            return this;
+        },
+
+        getKeys:function (callback) {
+            logger.log(&#x27;getKeys&#x27;);
+            callback(null, Object.keys(this._storage));
+            return this;
+        },
+
+        init:function () {
+
+        },
+
+        remove:function (keyOrArray, callback) {
+            var $this = this, key;
+
+            &#x2F;&#x2F; check to see if teh first argument is String or array
+            if (Array.isArray(keyOrArray)) {
+                keyOrArray.forEach(function (element, index, array) {
+                    delete $this._storage[element];
+                });
+            } else {
+                &#x2F;&#x2F; return the required value
+                delete $this._storage[keyOrArray];
+            }
+
+            if (callback) {
+                callback();
+            }
+            return this;
+        },
+
+        set:function (keyOrMap, value) {
+
+            var $this = this;
+
+            &#x2F;&#x2F; Check for set(String,String)
+            if (value) {
+                logger.log(&#x27;set String: &#x27;, keyOrMap, &#x27;=&#x27; + value);
+                this._storage[keyOrMap] = value;
+            } else {
+                &#x2F;&#x2F; Handle Array
+                logger.log(&#x27;set Array : &#x27;, keyOrMap);
+                Object.keys(keyOrMap).forEach(function (element, index, array) {
+                    $this._storage[element] = keyOrMap[element];
+                });
+            }
+        },
+
+        test:function () {
+            return true;
         }
-    },
 
-    test:function () {
-        return true;
-    }
+    });
 
-});
+}.apply(jStore, [jStore, jStore.utils]);
+
     </pre>
 </div>
 

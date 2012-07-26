@@ -263,7 +263,11 @@ var jStore = jStore || {};
         d.test = params.test;
         d.name = name;
 
+        // Add the drivers in the order we register them
         Driver.drivers.push(d);
+
+        // Add reference to the driver by its name so we will have fast access to it 
+        Driver.drivers[name] = d;
         return d;
     };
 
@@ -274,21 +278,43 @@ var jStore = jStore || {};
      *
      * @param {object} options options to pass to the driver's constructor
      *
+     * If we pass on a list of preferred drivers we test them in the given order
+     * options:{
+     *     drivers:[
+     *      'InMemory',
+     *      'DomStorage'
+     *     ]
+     * }
+     *
      * @return {Driver} the chosen driver
      */
     Driver.choose = function (opts) {
-        var i, driver;
+        var i, driver, driverName;
+
+        // First check if there is a preferred drivers list
+        // TODO: optimize this if condition.
+        if (opts && opts.drivers) {
+            for (i = 0; driver = opts.drivers[i]; i++) {
+                driverName = opts.drivers[i];
+                if (Driver.drivers[driverName].test()) {
+                    Driver.chosen = Driver.drivers[driverName];
+                    return new Driver.chosen(opts);
+                }
+            }
+        }
 
         if (Driver.chosen) {
             return new Driver.chosen(opts);
         }
 
+        // We might loop once again on all the drivers if the previous if did not return driver
+        // but since we will have few drivers its not worth to optimize the code for the loop.
         for (i = 0; driver = Driver.drivers[i]; i++) {
             if (driver.test()) {
                 Driver.chosen = driver;
                 return new driver(opts);
             }
         }
-    }
+    };
 
 }.apply(jStore, [jStore, jStore.utils]);
