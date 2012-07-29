@@ -42,7 +42,7 @@ var jStore = jStore || {};
             keys = Object.keys(localStorage);
 
             keys.forEach(function (key) {
-                callback(null, key.substr($this.prefixLen), localStorage.getItem(key));
+                callback(null, key.substr($this.prefixLen), JSON.parse(localStorage.getItem(key)));
             });
 
             return this;
@@ -61,12 +61,12 @@ var jStore = jStore || {};
             // check to see if the first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
-                    values[element] = localStorage[$this.prefix + element];
+                    values[element] = JSON.parse(localStorage.getItem($this.prefix + element));
                 });
                 callback(null, values);
             } else {
                 // return the required value
-                callback(null, keyOrArray, localStorage[$this.prefix + keyOrArray])
+                callback(null, keyOrArray, JSON.parse(localStorage.getItem($this.prefix + keyOrArray)));
             }
             return this;
         },
@@ -78,7 +78,7 @@ var jStore = jStore || {};
                 items = {};
 
             Object.keys(localStorage).forEach(function (key) {
-                items[key.substr($this.prefixLen)] = localStorage.getItem(key);
+                items[key.substr($this.prefixLen)] = JSON.parse(localStorage.getItem(key));
             });
 
             callback(null, items);
@@ -105,7 +105,7 @@ var jStore = jStore || {};
 
         remove:function (keyOrArray, callback) {
             var $this = this;
-            
+
             // check to see if teh first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
@@ -127,17 +127,17 @@ var jStore = jStore || {};
         //
         set:function (keyOrMap, value) {
             var $this = this;
-            
+
             try {
                 // Check for set(String,String)
                 if (value) {
                     logger.log('set String: ', $this.prefix + keyOrMap, '=' + value);
-                    localStorage.setItem($this.prefix + keyOrMap, value);
+                    localStorage.setItem($this.prefix + keyOrMap, JSON.stringify(value));
                 } else {
                     // Handle Array
                     logger.log('set Array : ', keyOrMap);
                     Object.keys(keyOrMap).forEach(function (element) {
-                        localStorage.setItem($this.prefix + element, keyOrMap[element]);
+                        localStorage.setItem($this.prefix + element, JSON.stringify(keyOrMap[element]));
                     });
                 }
             } catch (e) {
