@@ -7,7 +7,7 @@ var jStore = jStore || {};
      */
 
     var Driver,
-        logger = ns.Logger.getLogger("Driver", ns.Logger.logLevels.DEBUG);
+        logger = ns.Logger.getLogger("Driver", ns.Logger.logLevels.ERROR);
 
     /**
      * This is the skeleton Driver class.<br/>

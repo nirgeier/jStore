@@ -2,7 +2,7 @@ var jStore = jStore || {};
 
 !function (ns, utils) {
 
-    var logger = ns.Logger.getLogger("InMemory", ns.Logger.logLevels.DEBUG);
+    var logger = ns.Logger.getLogger("InMemory", ns.Logger.logLevels.ERROR);
 
     /**
      * This class is the implementation of InMemory storage.<br/>

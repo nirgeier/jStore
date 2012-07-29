@@ -2,7 +2,7 @@ var jStore = jStore || {};
 
 !function (ns) {
 
-    var logger = ns.Logger.getLogger("DomStorage", ns.Logger.logLevels.DEBUG);
+    var logger = ns.Logger.getLogger("DomStorage", ns.Logger.logLevels.ERROR);
 
     /**
      * This class is the implementation of InMemory storage.<br/>
