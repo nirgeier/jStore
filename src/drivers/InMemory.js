@@ -54,7 +54,7 @@ var jStore = jStore || {};
 
         exists:function (key, callback) {
             logger.log('exist');
-            callback(null, !!this._storage[this.table_name + key]);
+            callback(null, !!this._storage[this.prefix + key]);
             return this;
         },
 
@@ -77,7 +77,7 @@ var jStore = jStore || {};
 
         getAll:function (callback) {
             logger.log('getAll');
-            // We need to remove the table_name from all the keys before returning them
+            // We need to remove the prefix from all the keys before returning them
             var $this = this,
                 items = {};
 
@@ -91,7 +91,7 @@ var jStore = jStore || {};
 
         getKeys:function (callback) {
             logger.log('getKeys');
-            // We need to remove the table_name from all the keys before returning them
+            // We need to remove the prefix from all the keys before returning them
             var $this = this,
                 items = [];
 
@@ -109,11 +109,11 @@ var jStore = jStore || {};
             // check to see if teh first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
-                    delete $this._storage[$this.table_name + element];
+                    delete $this._storage[$this.prefix + element];
                 });
             } else {
                 // return the required value
-                delete $this._storage[$this.table_name + keyOrArray];
+                delete $this._storage[$this.prefix + keyOrArray];
             }
 
             if (callback) {
@@ -128,13 +128,13 @@ var jStore = jStore || {};
 
             // Check for set(String,String)
             if (value) {
-                logger.log('set String: ', $this.table_name + keyOrMap, '=' + value);
-                this._storage[$this.table_name + keyOrMap] = value;
+                logger.log('set String: ', $this.prefix + keyOrMap, '=' + value);
+                this._storage[$this.prefix + keyOrMap] = value;
             } else {
                 // Handle Array
                 logger.log('set Array : ', keyOrMap);
                 Object.keys(keyOrMap).forEach(function (element) {
-                    $this._storage[$this.table_name + element] = keyOrMap[element];
+                    $this._storage[$this.prefix + element] = keyOrMap[element];
                 });
             }
         },

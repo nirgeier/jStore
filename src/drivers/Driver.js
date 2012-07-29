@@ -24,7 +24,7 @@ var jStore = jStore || {};
      * @param options - The options must contain the following parameters:
      * <pre><code>
      *   {
-     *     table_name : The prefix for the give component
+     *     prefix : The prefix for the give component
      *   }
      *
      */
@@ -34,8 +34,8 @@ var jStore = jStore || {};
         utils.Bind.call(this);
 
         this.setOptions(options);
-        this.table_name = options ? options.table_name || '' : '';
-        this.prefixLen = this.table_name.length;
+        this.prefix = options ? options.table_name || '' : '';
+        this.prefixLen = this.prefix.length;
     };
 
     Driver.prototype = {
@@ -52,7 +52,7 @@ var jStore = jStore || {};
         /**
          * The storage prefix to allow same keys from different components.<br/>
          */
-        table_name:'',
+        prefix:'',
 
         /**
          * Delete all the records from the storage

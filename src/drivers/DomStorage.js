@@ -50,7 +50,7 @@ var jStore = jStore || {};
 
         exists:function (key, callback) {
             logger.log('exists');
-            callback(null, !!localStorage[this.table_name + key]);
+            callback(null, !!localStorage[this.prefix + key]);
             return this;
         },
 
@@ -61,19 +61,19 @@ var jStore = jStore || {};
             // check to see if the first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
-                    values[element] = localStorage[$this.table_name + element];
+                    values[element] = localStorage[$this.prefix + element];
                 });
                 callback(null, values);
             } else {
                 // return the required value
-                callback(null, keyOrArray, localStorage[$this.table_name + keyOrArray])
+                callback(null, keyOrArray, localStorage[$this.prefix + keyOrArray])
             }
             return this;
         },
 
         getAll:function (callback) {
             logger.log('getAll');
-            // We need to remove the table_name from all the keys before returning them
+            // We need to remove the prefix from all the keys before returning them
             var $this = this,
                 items = {};
 
@@ -87,7 +87,7 @@ var jStore = jStore || {};
 
         getKeys:function (callback) {
             logger.log('getKeys');
-            // We need to remove the table_name from all the keys before returning them
+            // We need to remove the prefix from all the keys before returning them
             var $this = this,
                 items = [];
 
@@ -109,11 +109,11 @@ var jStore = jStore || {};
             // check to see if teh first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
-                    localStorage.removeItem($this.table_name + element);
+                    localStorage.removeItem($this.prefix + element);
                 });
             } else {
                 // return the required value
-                localStorage.removeItem($this.table_name + keyOrArray);
+                localStorage.removeItem($this.prefix + keyOrArray);
             }
 
             if (callback) {
@@ -131,13 +131,13 @@ var jStore = jStore || {};
             try {
                 // Check for set(String,String)
                 if (value) {
-                    logger.log('set String: ', $this.table_name + keyOrMap, '=' + value);
-                    localStorage.setItem($this.table_name + keyOrMap, value);
+                    logger.log('set String: ', $this.prefix + keyOrMap, '=' + value);
+                    localStorage.setItem($this.prefix + keyOrMap, value);
                 } else {
                     // Handle Array
                     logger.log('set Array : ', keyOrMap);
                     Object.keys(keyOrMap).forEach(function (element) {
-                        localStorage.setItem($this.table_name + element, keyOrMap[element]);
+                        localStorage.setItem($this.prefix + element, keyOrMap[element]);
                     });
                 }
             } catch (e) {
