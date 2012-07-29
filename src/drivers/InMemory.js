@@ -48,13 +48,13 @@ var jStore = jStore || {};
             }
 
             for (key in this._storage) {
-                callback(null, key, this._storage[key]);
+                callback(null, key.substr(this.prefixLen), this._storage[key]);
             }
         },
 
         exists:function (key, callback) {
             logger.log('exist');
-            callback(null, !!this._storage[key]);
+            callback(null, !!this._storage[this.table_name + key]);
             return this;
         },
 
@@ -65,30 +65,42 @@ var jStore = jStore || {};
             // check to see if the first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
-                    values[element] = $this._storage[element];
+                    values[element.substr(this.prefixLen)] = $this._storage[element];
                 });
                 callback(null, values);
             } else {
                 // return the required value
-                callback(null, keyOrArray, $this._storage[keyOrArray])
+                callback(null, keyOrArray.substr(this.prefixLen), $this._storage[keyOrArray])
             }
             return this;
         },
 
         getAll:function (callback) {
             logger.log('getAll');
-            callback(null, this._storage);
+            // We need to remove the table_name from all the keys before returning them
+            var $this = this,
+                items = {};
+
+            Object.keys($this._storage).forEach(function (key) {
+                items[key.substr($this.prefixLen)] = $this._storage[key];
+            });
+
+            callback(null, items);
             return this;
         },
 
         getKeys:function (callback) {
             logger.log('getKeys');
-            callback(null, Object.keys(this._storage));
+            // We need to remove the table_name from all the keys before returning them
+            var $this = this,
+                items = [];
+
+            Object.keys($this._storage).forEach(function (key) {
+                items.push(key.substr($this.prefixLen));
+            });
+
+            callback(null, items);
             return this;
-        },
-
-        init:function () {
-
         },
 
         remove:function (keyOrArray, callback) {
@@ -97,11 +109,11 @@ var jStore = jStore || {};
             // check to see if teh first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
-                    delete $this._storage[element];
+                    delete $this._storage[$this.table_name + element];
                 });
             } else {
                 // return the required value
-                delete $this._storage[keyOrArray];
+                delete $this._storage[$this.table_name + keyOrArray];
             }
 
             if (callback) {
@@ -116,13 +128,13 @@ var jStore = jStore || {};
 
             // Check for set(String,String)
             if (value) {
-                logger.log('set String: ', keyOrMap, '=' + value);
-                this._storage[keyOrMap] = value;
+                logger.log('set String: ', $this.table_name + keyOrMap, '=' + value);
+                this._storage[$this.table_name + keyOrMap] = value;
             } else {
                 // Handle Array
                 logger.log('set Array : ', keyOrMap);
                 Object.keys(keyOrMap).forEach(function (element) {
-                    $this._storage[element] = keyOrMap[element];
+                    $this._storage[$this.table_name + element] = keyOrMap[element];
                 });
             }
         },

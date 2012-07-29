@@ -20,6 +20,13 @@ var jStore = jStore || {};
      * @ uses utils.Options
      * @ uses utils.Bind
      * @constructor
+     *
+     * @param options - The options must contain the following parameters:
+     * <pre><code>
+     *   {
+     *     table_name : The prefix for the give component
+     *   }
+     *
      */
     ns.Driver = Driver = function (options) {
         Events.call(this);
@@ -27,6 +34,8 @@ var jStore = jStore || {};
         utils.Bind.call(this);
 
         this.setOptions(options);
+        this.table_name = options ? options.table_name || '' : '';
+        this.prefixLen = this.table_name.length;
     };
 
     Driver.prototype = {
@@ -39,6 +48,11 @@ var jStore = jStore || {};
          * @type {String}
          */
         name:'Driver',
+
+        /**
+         * The storage prefix to allow same keys from different components.<br/>
+         */
+        table_name:'',
 
         /**
          * Delete all the records from the storage
@@ -122,7 +136,6 @@ var jStore = jStore || {};
         get:function (keyOrArray, callback) {
             return this;
         },
-
 
         /**
          * get all items.
@@ -306,6 +319,7 @@ var jStore = jStore || {};
         if (Driver.chosen) {
             return new Driver.chosen(opts);
         }
+        ;
 
         // We might loop once again on all the drivers if the previous if did not return driver
         // but since we will have few drivers its not worth to optimize the code for the loop.

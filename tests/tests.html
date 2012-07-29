@@ -14,17 +14,19 @@
 <body>
 
 <script>
-    var driver;
+    var driver, driver1;
 
     // Choose driver method
-    driver = jStore.Driver.choose();
+    driver = jStore.Driver.choose({table_name:'dummy_'});
     console.log('driver.choose [default]: ', driver.name);
 
-    driver = jStore.Driver.choose({drivers:['InMemory', 'DomStorage']});
+    driver = jStore.Driver.choose({table_name:'driver_', drivers:['InMemory', 'DomStorage']});
     console.log('driver.choose [InMemory]: ', driver.name);
 
-    driver = jStore.Driver.choose({drivers:['DomStorage', 'InMemory']});
-    console.log('driver.choose [DomStorage]: ', driver.name);
+    //driver = jStore.Driver.choose({table_name:'driver_', drivers:['DomStorage', 'InMemory']});
+    //console.log('driver.choose [DomStorage]: ', driver.name);
+
+    driver1 = jStore.Driver.choose({table_name:'driver1_', drivers:['DomStorage', 'InMemory']});
 
     function printAll() {
         // Print all the records

@@ -30,7 +30,7 @@ var jStore = jStore || {};
 
         each:function (callback) {
             logger.log('each');
-            var keys;
+            var keys, $this = this;
 
             // Verify that the callback is function
             if (typeof callback !== 'function') {
@@ -42,7 +42,7 @@ var jStore = jStore || {};
             keys = Object.keys(localStorage);
 
             keys.forEach(function (key) {
-                callback(null, key, localStorage.getItem(key));
+                callback(null, key.substr($this.prefixLen), localStorage.getItem(key));
             });
 
             return this;
@@ -50,36 +50,52 @@ var jStore = jStore || {};
 
         exists:function (key, callback) {
             logger.log('exists');
-            callback(null, !!localStorage[key]);
+            callback(null, !!localStorage[this.table_name + key]);
             return this;
         },
 
         get:function (keyOrArray, callback) {
             logger.log('get');
-            var values = {};
+            var $this = this, values = {};
 
             // check to see if the first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
-                    values[element] = localStorage[element];
+                    values[element] = localStorage[$this.table_name + element];
                 });
                 callback(null, values);
             } else {
                 // return the required value
-                callback(null, keyOrArray, localStorage[keyOrArray])
+                callback(null, keyOrArray, localStorage[$this.table_name + keyOrArray])
             }
             return this;
         },
 
         getAll:function (callback) {
             logger.log('getAll');
-            callback(null, localStorage);
+            // We need to remove the table_name from all the keys before returning them
+            var $this = this,
+                items = {};
+
+            Object.keys(localStorage).forEach(function (key) {
+                items[key.substr($this.prefixLen)] = localStorage.getItem(key);
+            });
+
+            callback(null, items);
             return this;
         },
 
         getKeys:function (callback) {
             logger.log('getKeys');
-            callback(null, Object.keys(localStorage));
+            // We need to remove the table_name from all the keys before returning them
+            var $this = this,
+                items = [];
+
+            Object.keys(localStorage).forEach(function (key) {
+                items.push(key.substr($this.prefixLen));
+            });
+
+            callback(null, items);
             return this;
         },
 
@@ -88,15 +104,16 @@ var jStore = jStore || {};
         },
 
         remove:function (keyOrArray, callback) {
+            var $this = this;
             
             // check to see if teh first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
-                    localStorage.removeItem(element);
+                    localStorage.removeItem($this.table_name + element);
                 });
             } else {
                 // return the required value
-                localStorage.removeItem(keyOrArray);
+                localStorage.removeItem($this.table_name + keyOrArray);
             }
 
             if (callback) {
@@ -109,24 +126,25 @@ var jStore = jStore || {};
         // TODO: handle object store, right now we only handle strings
         //
         set:function (keyOrMap, value) {
-
+            var $this = this;
+            
             try {
                 // Check for set(String,String)
                 if (value) {
-                    logger.log('set String: ', keyOrMap, '=' + value);
-                    localStorage.setItem(keyOrMap, value);
+                    logger.log('set String: ', $this.table_name + keyOrMap, '=' + value);
+                    localStorage.setItem($this.table_name + keyOrMap, value);
                 } else {
                     // Handle Array
                     logger.log('set Array : ', keyOrMap);
                     Object.keys(keyOrMap).forEach(function (element) {
-                        localStorage.setItem(element, keyOrMap[element]);
+                        localStorage.setItem($this.table_name + element, keyOrMap[element]);
                     });
                 }
             } catch (e) {
                 // could fail if localStorage is disabled for the site, 
                 // or if the quota has been exceeded
                 // the exception is expected to be 'QuotaExceededError'
-                Events.fireEvent('Error', {'error':e.getMessage});
+                Events.fireEvent('Error', {'error':e});
             }
         },
 
