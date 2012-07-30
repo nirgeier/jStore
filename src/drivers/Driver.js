@@ -34,7 +34,7 @@ var jStore = jStore || {};
         utils.Bind.call(this);
 
         this.setOptions(options);
-        this.prefix = options ? options.table_name || '' : '';
+        this.prefix = (options ? options.table_name || '' : '') + '_';
         this.prefixLen = this.prefix.length;
     };
 
@@ -301,7 +301,7 @@ var jStore = jStore || {};
      *
      * @return {Driver} the chosen driver
      */
-    Driver.choose = function (opts) {
+    Driver.getDriver = function (opts) {
         var i, driver, driverName;
 
         // First check if there is a preferred drivers list

@@ -16,17 +16,17 @@
 <script>
     var driver, driver1;
 
-    // Choose driver method
-    driver = jStore.Driver.choose({table_name:'dummy_'});
-    console.log('driver.choose [default]: ', driver.name);
+    // getDriver method
+    driver = jStore.Driver.getDriver({table_name:'dummy'});
+    console.log('driver.getDriver [default]: ', driver.name);
 
-    driver = jStore.Driver.choose({table_name:'driver_', drivers:['InMemory', 'DomStorage']});
-    console.log('driver.choose [InMemory]: ', driver.name);
+    driver = jStore.Driver.getDriver({table_name:'driver', drivers:['InMemory', 'DomStorage']});
+    console.log('driver.getDriver [InMemory]: ', driver.name);
 
-    //driver = jStore.Driver.choose({table_name:'driver_', drivers:['DomStorage', 'InMemory']});
-    //console.log('driver.choose [DomStorage]: ', driver.name);
+    driver = jStore.Driver.getDriver({table_name:'driver', drivers:['DomStorage', 'InMemory']});
+    //console.log('driver.getDriver [DomStorage]: ', driver.name);
 
-    driver1 = jStore.Driver.choose({table_name:'driver1_', drivers:['DomStorage', 'InMemory']});
+    driver1 = jStore.Driver.getDriver({table_name:'driver1', drivers:['DomStorage', 'InMemory']});
 
     function printAll() {
         // Print all the records
@@ -101,7 +101,7 @@
     // Print all the data in the storage
     printAll();
 
-    driver.clear();
+    //driver.clear();
 
     // Print all the data in the storage
     printAll();
