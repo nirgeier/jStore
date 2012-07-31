@@ -32,12 +32,6 @@ var jStore = jStore || {};
             logger.log('each');
             var keys, $this = this;
 
-            // Verify that the callback is function
-            if (typeof callback !== 'function') {
-                this.fireEvent('Error', 'Missing required callback function.');
-                return this;
-            }
-
             // Extract all the keys from the local storage
             keys = Object.keys(localStorage);
 
@@ -122,9 +116,6 @@ var jStore = jStore || {};
             return this;
         },
 
-        // 
-        // TODO: handle object store, right now we only handle strings
-        //
         set:function (keyOrMap, value) {
             var $this = this;
 

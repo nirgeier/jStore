@@ -1,6 +1,6 @@
 var jStore = jStore || {};
 
-!function (ns, utils) {
+!function (ns) {
 
     var logger = ns.Logger.getLogger("InMemory", ns.Logger.logLevels.ERROR);
 
@@ -41,14 +41,10 @@ var jStore = jStore || {};
             logger.log('each');
             var key;
 
-            // Verify that the callback is function
-            if (typeof  callback !== 'function') {
-                this.fireEvent('Error', 'Missing required callback function.');
-                return this;
-            }
-
             for (key in this._storage) {
-                callback(null, key.substr(this.prefixLen), this._storage[key]);
+                if (this._storage.hasOwnProperty(key)) {
+                    callback(null, key.substr(this.prefixLen), this._storage[key]);
+                }
             }
         },
 
@@ -65,12 +61,12 @@ var jStore = jStore || {};
             // check to see if the first argument is String or array
             if (Array.isArray(keyOrArray)) {
                 keyOrArray.forEach(function (element) {
-                    values[element.substr(this.prefixLen)] = $this._storage[element];
+                    values[element.substr($this.prefixLen)] = $this._storage[element];
                 });
                 callback(null, values);
             } else {
                 // return the required value
-                callback(null, keyOrArray.substr(this.prefixLen), $this._storage[keyOrArray])
+                callback(null, keyOrArray.substr($this.prefixLen), $this._storage[keyOrArray])
             }
             return this;
         },
@@ -145,4 +141,4 @@ var jStore = jStore || {};
 
     });
 
-}.apply(jStore, [jStore, jStore.utils]);
+}.apply(jStore, [jStore]);
