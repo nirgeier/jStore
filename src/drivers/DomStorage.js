@@ -1,11 +1,12 @@
 var jStore = jStore || {};
 
-!function (ns) {
+!function (ns, utils) {
     /**
      * @module Driver.DomStorage
      */
 
-    var logger = ns.Logger.getLogger("DomStorage", ns.Logger.logLevels.ERROR);
+    var logger = ns.Logger.getLogger("DomStorage", ns.Logger.logLevels.ERROR),
+        stores = {};
 
     /**
      * This class is the implementation of InMemory storage.<br/>
@@ -23,13 +24,21 @@ var jStore = jStore || {};
         name:'DomStorage',
 
         init:function (options) {
-            this.prefix = this.options.table_name + '_';
-            this.prefixLen = this.prefix.length;
+            this.prefix = this.options.db_name + '_' + this.options.table_name + '_';
+            this.prefix_len = this.prefix.length;
+
+            if (stores[this.options.table_name]){
+                this.store = stores[this.options.table_name];
+            }else{
+                this.store = stores[this.options.table_name] = {};
+            }
         },
 
         clear:function (callback) {
             logger.log('clear');
             localStorage.clear();
+            this.store = stores[this.options.table_name] = {};
+
             if (callback) {
                 callback(null);
             }
@@ -41,34 +50,34 @@ var jStore = jStore || {};
             var keys, $this = this;
 
             // Extract all the keys from the local storage
-            keys = Object.keys(localStorage);
+            keys = Object.keys(this.store);
 
             keys.forEach(function (key) {
-                callback(null, key.substr($this.prefixLen), JSON.parse(localStorage.getItem(key)));
-            });
+                callback(key, JSON.parse(this.store[key]));
+            }.bind(this));
 
             return this;
         },
 
         exists:function (key, callback) {
             logger.log('exists');
-            callback(null, !!localStorage[this.prefix + key]);
+            callback(null, !!this.store[key]);
             return this;
         },
 
-        get:function (keyOrArray, callback) {
+        get:function (key, callback) {
             logger.log('get');
             var $this = this, values = {};
 
             // check to see if the first argument is String or array
-            if (Array.isArray(keyOrArray)) {
-                keyOrArray.forEach(function (element) {
-                    values[element] = JSON.parse(localStorage.getItem($this.prefix + element));
+            if (Array.isArray(key)) {
+                key.forEach(function (element) {
+                    values[element] = JSON.parse($this.store[key]);
                 });
                 callback(null, values);
             } else {
                 // return the required value
-                callback(null, JSON.parse(localStorage.getItem($this.prefix + keyOrArray)));
+                callback(null, JSON.parse(this.store[key]));
             }
             return this;
         },
@@ -79,11 +88,8 @@ var jStore = jStore || {};
             var $this = this,
                 items = {};
 
-            Object.keys(localStorage).forEach(function (key) {
-                items[key.substr($this.prefixLen)] = JSON.parse(localStorage.getItem(key));
-            });
 
-            callback(null, items);
+            callback(null, this.store);
             return this;
         },
 
@@ -93,56 +99,54 @@ var jStore = jStore || {};
             var $this = this,
                 items = [];
 
-            Object.keys(localStorage).forEach(function (key) {
-                items.push(key.substr($this.prefixLen));
+            callback(null, Object.keys(this.store));
+
+            return this;
+        },
+
+        remove:function (key, callback) {
+            var $this = this,
+                keys = utils.toArray(key);
+
+            keys.forEach(function (element) {
+                localStorage.removeItem($this.prefix + element);
+                delete $this.store[element];
             });
 
-            callback(null, items);
-            return this;
-        },
-
-        remove:function (keyOrArray, callback) {
-            var $this = this;
-
-            // check to see if teh first argument is String or array
-            if (Array.isArray(keyOrArray)) {
-                keyOrArray.forEach(function (element) {
-                    localStorage.removeItem($this.prefix + element);
-                });
-            } else {
-                // return the required value
-                localStorage.removeItem($this.prefix + keyOrArray);
-            }
-
             if (callback) {
-                callback();
+                callback(null);
             }
             return this;
         },
 
-        set:function (keyOrMap, value, callback) {
-            var $this = this;
+        set:function (key, value, callback) {
+            var $this = this,
+                map, keys, prop;
+
+            if (typeof key == 'string' || typeof key == 'number'){
+                map = {};
+                map[key] = value;
+            }else{
+                map = key;
+            }
 
             try {
-                // Check for set(String,String)
-                if (value) {
-                    logger.log('set String: ', $this.prefix + keyOrMap, '=' + value);
-                    localStorage.setItem($this.prefix + keyOrMap, JSON.stringify(value));
-                    callback(null);
-                } else {
-                    // Handle Array
-                    logger.log('set Array : ', keyOrMap);
-                    Object.keys(keyOrMap).forEach(function (element) {
-                        localStorage.setItem($this.prefix + element, JSON.stringify(keyOrMap[element]));
-                    });
+                for (prop in map){
+                    logger.log('set String: ', $this.prefix + prop, '=' + value);
 
-                    callback(null);
+                    value = JSON.stringify(map[prop]);
+
+                    localStorage.setItem(this.prefix+prop, value);
+                    this.store[prop] = value;
+                    keys.push(prop);
                 }
+
+                callback(null);
             } catch (e) {
-                // could fail if localStorage is disabled for the site,
-                // or if the quota has been exceeded
-                // the exception is expected to be 'QuotaExceededError'
                 this.fireEvent('Error', {'error':e});
+
+                this.remove(keys);
+
                 callback(e);
             }
         },
@@ -165,4 +169,4 @@ var jStore = jStore || {};
 
     });
 
-}.apply(jStore, [jStore]);
+}.apply(jStore, [jStore, jStore.utils]);

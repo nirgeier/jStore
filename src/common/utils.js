@@ -144,4 +144,8 @@ jStore.utils = jStore.utils || {};
         return target;
     };
 
+
+    this.toArray = function(prop){
+        return prop instanceof Array ? prop : [prop];
+    };
 }.apply(jStore.utils, [jStore, jStore.utils]);

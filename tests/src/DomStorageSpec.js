@@ -3,7 +3,7 @@ describe("DomStorage", function(){
         localStorage.clear();    
 
         tests.getDriver = function(){
-            return new jStore.drivers['DomStorage']({table_name:"test"});
+            return new jStore.drivers['DomStorage']({table_name:"test", db_name: 'Chegg'});
         };
 
         tests.getValue = function(key, cb){
