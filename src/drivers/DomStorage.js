@@ -1,6 +1,9 @@
 var jStore = jStore || {};
 
 !function (ns) {
+    /**
+     * @module Driver.DomStorage
+     */
 
     var logger = ns.Logger.getLogger("DomStorage", ns.Logger.logLevels.ERROR);
 
@@ -12,12 +15,17 @@ var jStore = jStore || {};
      * TODO: Right now we have unknown memory limitation<br/>
      *
      * @constructor
-     * @class InMemory
+     * @class DomStorage
      * @extends Driver
      **/
-    jStore.Driver.register('DomStorage', {
+    jStore.registerDriver('DomStorage', {
 
         name:'DomStorage',
+
+        init:function (options) {
+            this.prefix = this.options.table_name + '_';
+            this.prefixLen = this.prefix.length;
+        },
 
         clear:function (callback) {
             logger.log('clear');
@@ -60,7 +68,7 @@ var jStore = jStore || {};
                 callback(null, values);
             } else {
                 // return the required value
-                callback(null, keyOrArray, JSON.parse(localStorage.getItem($this.prefix + keyOrArray)));
+                callback(null, JSON.parse(localStorage.getItem($this.prefix + keyOrArray)));
             }
             return this;
         },
@@ -93,10 +101,6 @@ var jStore = jStore || {};
             return this;
         },
 
-        init:function () {
-
-        },
-
         remove:function (keyOrArray, callback) {
             var $this = this;
 
@@ -116,7 +120,7 @@ var jStore = jStore || {};
             return this;
         },
 
-        set:function (keyOrMap, value) {
+        set:function (keyOrMap, value, callback) {
             var $this = this;
 
             try {
@@ -124,18 +128,22 @@ var jStore = jStore || {};
                 if (value) {
                     logger.log('set String: ', $this.prefix + keyOrMap, '=' + value);
                     localStorage.setItem($this.prefix + keyOrMap, JSON.stringify(value));
+                    callback(null);
                 } else {
                     // Handle Array
                     logger.log('set Array : ', keyOrMap);
                     Object.keys(keyOrMap).forEach(function (element) {
                         localStorage.setItem($this.prefix + element, JSON.stringify(keyOrMap[element]));
                     });
+
+                    callback(null);
                 }
             } catch (e) {
-                // could fail if localStorage is disabled for the site, 
+                // could fail if localStorage is disabled for the site,
                 // or if the quota has been exceeded
                 // the exception is expected to be 'QuotaExceededError'
-                Events.fireEvent('Error', {'error':e});
+                this.fireEvent('Error', {'error':e});
+                callback(e);
             }
         },
 
@@ -143,8 +151,8 @@ var jStore = jStore || {};
             return !!localStorage && function () {
                 // in mobile safari if safe browsing is enabled, window.storage
                 // is defined but setItem calls throw exceptions.
-                var success = true;
-                var value = Math.random();
+                var success = true,
+                    value = Math.random();
                 try {
                     localStorage.setItem(value, value);
                 } catch (e) {
@@ -152,7 +160,7 @@ var jStore = jStore || {};
                 }
                 localStorage.removeItem(value);
                 return success;
-            }()
+            }();
         }
 
     });

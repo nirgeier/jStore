@@ -1,3 +1,4 @@
+var jStore = jStore || {};
 jStore.utils = jStore.utils || {};
 
 !function (ns, utils) {
@@ -117,6 +118,30 @@ jStore.utils = jStore.utils || {};
         };
 
         return obj;
+    };
+
+
+    /**
+     * merges a list of objects into a single object
+     *
+     * @method merge
+     * @static
+     *
+     * @param {object} target
+     * @param {object} [obj]  an object to merge (can be an infinite list of objects)
+     *
+     * @return {object} merged object
+     */
+    this.merge = function(target /*, obj1 [,obj2 [,obj3 ...]]*/){
+        var objects = [].slice.call(arguments, 1), i, object, key;
+
+        for (i=0; object = objects[i]; i++){
+            for (key in object){
+                target[key] = object[key];
+            }
+        }
+
+        return target;
     };
 
 }.apply(jStore.utils, [jStore, jStore.utils]);

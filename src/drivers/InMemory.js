@@ -1,7 +1,8 @@
 var jStore = jStore || {};
-
 !function (ns) {
-
+    /**
+     * @module Driver.InMemory
+     */
     var logger = ns.Logger.getLogger("InMemory", ns.Logger.logLevels.ERROR);
 
     /**
@@ -15,7 +16,7 @@ var jStore = jStore || {};
      * @class InMemory
      * @extends Driver
      **/
-    jStore.Driver.register('InMemory', {
+    jStore.registerDriver('InMemory', {
 
         /**
          * The InMemory storage use Object (JSON) to store all the data.<br/>
@@ -66,7 +67,7 @@ var jStore = jStore || {};
                 callback(null, values);
             } else {
                 // return the required value
-                callback(null, keyOrArray.substr($this.prefixLen), $this._storage[keyOrArray])
+                callback(null, keyOrArray.substr($this.prefixLen), $this._storage[keyOrArray]);
             }
             return this;
         },
