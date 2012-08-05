@@ -1,81 +1,101 @@
 var jStore = jStore || {};
 
-!function (ns) {
-
-    var logger = ns.Logger.getLogger('DriverTemplate', ns.Logger.logLevels.DEBUG);
-
+!function (ns, utils) {
     /**
-     * This class is the implementation of DriverTemplate driver.<br/>
-     *
-     * @constructor
-     * @class DriverTemplate
-     * @extends Driver
-     **/
-    jStore.Driver.register('DriverTemplate', {
+     * @module Driver.Template
+     */
 
-        name:'DriverTemplate',
+    var logger = ns.Logger.getLogger("Template", ns.Logger.logLevels.ERROR),
+        driver;
+
+    driver = jStore.registerDriver('Template', {
+        name:'Template',
+
+        init:function (options) {
+            this.fireEvent('load:latched');
+        },
 
         clear:function (callback) {
             logger.log('clear');
-
             if (callback) {
-                callback();
+                callback(null);
             }
-            return this;
+            return this.$parent('clear',arguments);
         },
 
         each:function (callback) {
             logger.log('each');
-            return this;
+
+            /*
+            keys.forEach(function (key, value) {
+                callback(key, value);
+            }.bind(this));
+            */
+
+            return this.$parent('each',arguments);
         },
 
         exists:function (key, callback) {
             logger.log('exists');
-            callback(null, true);
-            return this;
+
+            // callback(null, exists);
+
+            return this.$parent('exists',arguments);
         },
 
-        get:function (keyOrArray, callback) {
+        get:function (key, callback) {
             logger.log('get');
-            return this;
+
+            /*
+            if (Array.isArray(key)) {
+                callback(null, values);
+            } else {
+                callback(null, value);
+            }
+            */
+            return this.$parent('get',arguments);
         },
 
         getAll:function (callback) {
             logger.log('getAll');
-            var items = {};
+            /*
             callback(null, items);
-            return this;
+            */
+            return this.$parent('getAll',arguments);
         },
 
         getKeys:function (callback) {
             logger.log('getKeys');
-            var items = [];
-            callback(null, items);
-            return this;
+
+            // callback(null, keys);
+
+            return this.$parent('getKeys',arguments);
         },
 
-        init:function () {
-            logger.log('init');
-            return this;
-
-        },
-
-        remove:function (keyOrArray, callback) {
-            logger.log('remove');
-
+        remove:function (key, callback) {
+            /*
             if (callback) {
-                callback();
+                callback(null);
             }
-            return this;
+            */
+            return this.$parent('remove',arguments);
         },
 
-        set:function (keyOrMap, value) {
-            return this;
+        set:function (key, value, callback) {
+            /*
+            callback(null);
+            */
+            return this.$parent('set',arguments);
         },
 
         test:function () {
             return false;
+        },
+
+        getLength : function(cb){
+            // cb(null,length);
+
+            return this.$parent('getLength', arguments);
         }
     });
-
-}.apply(jStore, [jStore]);
+}.apply(jStore, [jStore, jStore.utils]);
