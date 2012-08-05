@@ -1,24 +1,43 @@
 describe("DomStorage", function(){
+    var prefix = "Chegg_test_",
+        driver_const = jStore.drivers['DomStorage'],
+        driver;
+
     beforeEach(function(){
-        localStorage.clear();    
+        localStorage.clear();
+
+        driver_const.stores = {};
 
         tests.getDriver = function(){
-            return new jStore.drivers['DomStorage']({table_name:"test", db_name: 'Chegg'});
+            driver = new jStore.drivers['DomStorage']({table_name:"test", db_name: 'Chegg'});
+            return driver;
         };
 
         tests.getValue = function(key, cb){
-            cb(JSON.parse(localStorage.getItem('test_'+key)));    
+            cb(JSON.parse(localStorage.getItem(prefix+key)));
         };
 
         tests.setValues = function(values, cb){
-            var key;
+            var key, value;
             for (key in values){
-                localStorage.setItem("test_"+key, JSON.stringify(values[key]));    
+                value = JSON.stringify(values[key]);
+                localStorage.setItem(prefix+key, value);
+                driver.store[key] = value;
             }
 
             cb();
         };
+
+        tests.exists = function(keys, cb){
+            var i,key;
+
+            for (i=0; key = keys[i]; i++){
+                if (!!localStorage.getItem(prefix + key)) return cb(true);
+            }
+
+            cb(false);
+        };
     });
 
-    tests.runTests();        
+    tests.runTests();
 });

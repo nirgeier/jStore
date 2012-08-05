@@ -227,6 +227,22 @@ var jStore = jStore || {};
         },
 
         /**
+         * returns the number of items in the store
+         *
+         * @async
+         * @chainable
+         *
+         * @method getLength
+         *
+         * @param {function} callback
+         *
+         * @return {number}
+         */
+        getLength : function(cb){
+            return this;    
+        },
+
+        /**
          * Test method to check if this driver is suitable for this browser/device
          *
          * <pre><code>

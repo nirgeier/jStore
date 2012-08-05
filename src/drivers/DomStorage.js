@@ -6,7 +6,7 @@ var jStore = jStore || {};
      */
 
     var logger = ns.Logger.getLogger("DomStorage", ns.Logger.logLevels.ERROR),
-        stores = {};
+        driver;
 
     /**
      * This class is the implementation of InMemory storage.<br/>
@@ -19,7 +19,7 @@ var jStore = jStore || {};
      * @class DomStorage
      * @extends Driver
      **/
-    jStore.registerDriver('DomStorage', {
+    driver = jStore.registerDriver('DomStorage', {
 
         name:'DomStorage',
 
@@ -27,22 +27,25 @@ var jStore = jStore || {};
             this.prefix = this.options.db_name + '_' + this.options.table_name + '_';
             this.prefix_len = this.prefix.length;
 
-            if (stores[this.options.table_name]){
-                this.store = stores[this.options.table_name];
+            if (driver.stores[this.options.table_name]){
+                this.store = driver.stores[this.options.table_name];
             }else{
-                this.store = stores[this.options.table_name] = {};
+                this.store = driver.stores[this.options.table_name] = {};
             }
+
+            this.fireEvent('load:latched');
         },
 
         clear:function (callback) {
             logger.log('clear');
             localStorage.clear();
-            this.store = stores[this.options.table_name] = {};
+            this.store = driver.stores[this.options.table_name] = {};
 
             if (callback) {
                 callback(null);
             }
-            return this;
+
+            return this.$parent('clear',arguments);
         },
 
         each:function (callback) {
@@ -56,13 +59,13 @@ var jStore = jStore || {};
                 callback(key, JSON.parse(this.store[key]));
             }.bind(this));
 
-            return this;
+            return this.$parent('each',arguments);
         },
 
         exists:function (key, callback) {
             logger.log('exists');
             callback(null, !!this.store[key]);
-            return this;
+            return this.$parent('exists',arguments);
         },
 
         get:function (key, callback) {
@@ -72,25 +75,29 @@ var jStore = jStore || {};
             // check to see if the first argument is String or array
             if (Array.isArray(key)) {
                 key.forEach(function (element) {
-                    values[element] = JSON.parse($this.store[key]);
+                    values[element] = JSON.parse($this.store[element]);
                 });
                 callback(null, values);
             } else {
                 // return the required value
                 callback(null, JSON.parse(this.store[key]));
             }
-            return this;
+            return this.$parent('get',arguments);
         },
 
         getAll:function (callback) {
             logger.log('getAll');
             // We need to remove the prefix from all the keys before returning them
             var $this = this,
+                key,
                 items = {};
 
+            for (key in this.store){
+                items[key] = JSON.parse(this.store[key]);    
+            }
 
-            callback(null, this.store);
-            return this;
+            callback(null, items);
+            return this.$parent('getAll',arguments);
         },
 
         getKeys:function (callback) {
@@ -101,7 +108,7 @@ var jStore = jStore || {};
 
             callback(null, Object.keys(this.store));
 
-            return this;
+            return this.$parent('getKeys',arguments);
         },
 
         remove:function (key, callback) {
@@ -116,12 +123,12 @@ var jStore = jStore || {};
             if (callback) {
                 callback(null);
             }
-            return this;
+            return this.$parent('remove',arguments);
         },
 
         set:function (key, value, callback) {
             var $this = this,
-                map, keys, prop;
+                map, keys = [], prop;
 
             if (typeof key == 'string' || typeof key == 'number'){
                 map = {};
@@ -149,6 +156,7 @@ var jStore = jStore || {};
 
                 callback(e);
             }
+            return this.$parent('set',arguments);
         },
 
         test:function () {
@@ -165,8 +173,14 @@ var jStore = jStore || {};
                 localStorage.removeItem(value);
                 return success;
             }();
-        }
+        },
 
+        getLength : function(cb){
+            cb(null,Object.keys(this.store).length);
+
+            return this.$parent('getLength', arguments);
+        }
     });
 
+    driver.stores = {};
 }.apply(jStore, [jStore, jStore.utils]);
