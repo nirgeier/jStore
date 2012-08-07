@@ -148,13 +148,13 @@ var jStore = jStore || {};
                     keys.push(prop);
                 }
 
-                callback(null);
+                callback && callback(null);
             } catch (e) {
                 this.fireEvent('Error', {'error':e});
 
                 this.remove(keys);
 
-                callback(e);
+                callback && callback(e);
             }
             return this.$parent('set',arguments);
         },
