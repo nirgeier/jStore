@@ -24,126 +24,126 @@ var jStore = jStore || {};
         name:'DomStorage',
 
         init:function (options) {
-            this.prefix = this.options.db_name + '_' + this.options.table_name + '_';
-            this.prefix_len = this.prefix.length;
 
-            if (driver.stores[this.options.table_name]){
-                this.store = driver.stores[this.options.table_name];
-            }else{
-                this.store = driver.stores[this.options.table_name] = {};
+            // Set the prefix for this storage
+            this.prefix = this.options.db_name + '_' + this.options.table_name + '_';
+
+            // Init the internal store object
+            if (!driver.stores[this.options.table_name]) {
+                driver.stores[this.options.table_name] = {};
             }
+
+            // TODO: fill the this.store with the current localstorage data
+            this.store = driver.stores[this.options.table_name];
 
             this.fireEvent('load:latched');
         },
 
         clear:function (callback) {
             logger.log('clear');
+
+            // Clear the browser storage
+            // TODO: CLear only the drivers items and not all the items. 
+            //       Only the ones in this.store should be removed.
             localStorage.clear();
+
+            // Clear local storage
             this.store = driver.stores[this.options.table_name] = {};
 
             if (callback) {
                 callback(null);
             }
 
-            return this.$parent('clear',arguments);
+            return this.$parent('clear', arguments);
         },
 
         each:function (callback) {
             logger.log('each');
-            var keys, $this = this;
+            var keys;
 
             // Extract all the keys from the local storage
             keys = Object.keys(this.store);
 
             keys.forEach(function (key) {
-                callback(key, JSON.parse(this.store[key]));
+                callback(null, key, JSON.parse(this.store[key]));
             }.bind(this));
 
-            return this.$parent('each',arguments);
+            return this.$parent('each', arguments);
         },
 
         exists:function (key, callback) {
             logger.log('exists');
             callback(null, !!this.store[key]);
-            return this.$parent('exists',arguments);
+            return this.$parent('exists', arguments);
         },
 
         get:function (key, callback) {
             logger.log('get');
-            var $this = this, values = {};
+            var values = {};
 
             // check to see if the first argument is String or array
             if (Array.isArray(key)) {
                 key.forEach(function (element) {
-                    values[element] = JSON.parse($this.store[element]);
-                });
+                    values[element] = JSON.parse(this.store[element]);
+                }.bind(this));
                 callback(null, values);
             } else {
                 // return the required value
                 callback(null, JSON.parse(this.store[key]));
             }
-            return this.$parent('get',arguments);
+            return this.$parent('get', arguments);
         },
 
         getAll:function (callback) {
             logger.log('getAll');
-            // We need to remove the prefix from all the keys before returning them
-            var $this = this,
-                key,
-                items = {};
+            var key, items = {};
 
-            for (key in this.store){
-                items[key] = JSON.parse(this.store[key]);    
+            for (key in this.store) {
+                items[key] = JSON.parse(this.store[key]);
             }
 
             callback(null, items);
-            return this.$parent('getAll',arguments);
+            return this.$parent('getAll', arguments);
         },
 
         getKeys:function (callback) {
             logger.log('getKeys');
-            // We need to remove the prefix from all the keys before returning them
-            var $this = this,
-                items = [];
-
             callback(null, Object.keys(this.store));
 
-            return this.$parent('getKeys',arguments);
+            return this.$parent('getKeys', arguments);
         },
 
         remove:function (key, callback) {
-            var $this = this,
-                keys = utils.toArray(key);
-
+            var keys = utils.toArray(key);
+            
             keys.forEach(function (element) {
-                localStorage.removeItem($this.prefix + element);
-                delete $this.store[element];
-            });
+                localStorage.removeItem(this.prefix + element);
+                delete this.store[element];
+            }.bind(this));
 
             if (callback) {
                 callback(null);
             }
-            return this.$parent('remove',arguments);
+            return this.$parent('remove', arguments);
         },
 
         set:function (key, value, callback) {
-            var $this = this,
-                map, keys = [], prop;
+            var map, keys = [], prop;
 
-            if (typeof key == 'string' || typeof key == 'number'){
+            if (typeof key == 'string' || typeof key == 'number') {
                 map = {};
                 map[key] = value;
-            }else{
+            } else {
                 map = key;
             }
 
             try {
-                for (prop in map){
-                    logger.log('set String: ', $this.prefix + prop, '=' + value);
+                for (prop in map) {
+                    logger.log('set String: ', this.prefix + prop, '=' + value);
 
                     value = JSON.stringify(map[prop]);
 
-                    localStorage.setItem(this.prefix+prop, value);
+                    localStorage.setItem(this.prefix + prop, value);
                     this.store[prop] = value;
                     keys.push(prop);
                 }
@@ -156,7 +156,7 @@ var jStore = jStore || {};
 
                 callback && callback(e);
             }
-            return this.$parent('set',arguments);
+            return this.$parent('set', arguments);
         },
 
         test:function () {
@@ -175,8 +175,8 @@ var jStore = jStore || {};
             }();
         },
 
-        getLength : function(cb){
-            cb(null,Object.keys(this.store).length);
+        getLength:function (cb) {
+            cb(null, Object.keys(this.store).length);
 
             return this.$parent('getLength', arguments);
         }

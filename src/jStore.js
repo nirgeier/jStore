@@ -64,8 +64,6 @@ var jStore = jStore || {};
 
         if (!list_provided && jStore.chosen_driver) return jStore.chosen_driver;
 
-
-
         for (i = 0; name = list[i]; i++) {
             driver = jStore.drivers[name];
 

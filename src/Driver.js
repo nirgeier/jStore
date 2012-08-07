@@ -185,8 +185,10 @@ var jStore = jStore || {};
          * Any initialization code should be place here
          *
          * @method init
+         * @param options - Object for initialization.<br/>
+         *                  required param is table_name, all other options are optional.
          */
-        init:function () {
+        init:function (options) {
         },
 
         /**
@@ -238,8 +240,8 @@ var jStore = jStore || {};
          *
          * @return {number}
          */
-        getLength : function(cb){
-            return this;    
+        getLength:function (cb) {
+            return -1;
         },
 
         /**
@@ -258,8 +260,8 @@ var jStore = jStore || {};
     };
 
     Driver.defaultOptions = {
-        table_name : '',
-        db_name : ''
+        table_name:'',
+        db_name:''
     };
 
     ns.Driver = Driver;

@@ -7,7 +7,8 @@
     <script src="../src/Events/Events.js"></script>
     <script src="../src/common/Logger.js"></script>
     <script src="../src/common/utils.js"></script>
-    <script src="../src/drivers/Driver.js"></script>
+    <script src="../src/Driver.js"></script>
+    <script src="../src/jStore.js"></script>
     <script src="../src/drivers/InMemory.js"></script>
     <script src="../src/drivers/DomStorage.js"></script>
 </head>
@@ -17,16 +18,10 @@
     var driver, driver1;
 
     // getDriver method
-    driver = jStore.Driver.getDriver({table_name:'dummy'});
-    console.log('driver.getDriver [default]: ', driver.name);
-
-    driver = jStore.Driver.getDriver({table_name:'driver', drivers:['InMemory', 'DomStorage']});
+    driver = new jStore.drivers['InMemory']({table_name:"test", db_name: 'Chegg'});
+    driver1 = new jStore.drivers['DomStorage']({table_name:"test", db_name: 'Chegg'});
     console.log('driver.getDriver [InMemory]: ', driver.name);
-
-    driver = jStore.Driver.getDriver({table_name:'driver', drivers:['DomStorage', 'InMemory']});
-    //console.log('driver.getDriver [DomStorage]: ', driver.name);
-
-    driver1 = jStore.Driver.getDriver({table_name:'driver1', drivers:['DomStorage', 'InMemory']});
+    
 
     function printAll() {
         // Print all the records

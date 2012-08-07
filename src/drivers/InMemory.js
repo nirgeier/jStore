@@ -29,6 +29,12 @@ var jStore = jStore || {};
 
         name:'InMemory',
 
+        init:function () {
+            // Set the prefix for this storage
+            this.prefix = this.options.db_name + '_' + this.options.table_name + '_';
+            this.prefixLen = this.prefix.length;
+        },
+
         clear:function (callback) {
             logger.log('clear');
             this._storage = {};
@@ -114,7 +120,7 @@ var jStore = jStore || {};
             }
 
             if (callback) {
-                callback();
+                callback(null);
             }
             return this;
         },
