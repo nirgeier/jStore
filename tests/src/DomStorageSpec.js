@@ -84,7 +84,6 @@ describe("DomStorage", function () {
         tests.getDriver();
 
         driver.exists('test', function (err, exists) {
-            console.log(arguments);
             ++tests.done;
         });
 
