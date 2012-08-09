@@ -25,6 +25,8 @@ var jStore = jStore || {};
 
         init:function (options) {
 
+            var keys;
+
             // Set the prefix for this storage
             this.prefix = this.options.db_name + '_' + this.options.table_name + '_';
 
@@ -33,8 +35,15 @@ var jStore = jStore || {};
                 driver.stores[this.options.table_name] = {};
             }
 
-            // TODO: fill the this.store with the current localstorage data
             this.store = driver.stores[this.options.table_name];
+
+            // Load existing records from localStorage
+            keys = Object.keys(localStorage);
+            keys.forEach(function (key) {
+                if (key.indexOf(this.prefix) !== -1) {
+                    this.store[key.substr(this.prefix.length)] = localStorage[key];
+                }
+            }.bind(this));
 
             this.fireEvent('load:latched');
         },
@@ -42,17 +51,15 @@ var jStore = jStore || {};
         clear:function (callback) {
             logger.log('clear');
 
-            // Clear the browser storage
-            // TODO: CLear only the drivers items and not all the items. 
-            //       Only the ones in this.store should be removed.
-            localStorage.clear();
+            var key;
+            for (key in this.store) {
+                localStorage.removeItem(this.prefix + key);
+            }
 
             // Clear local storage
             this.store = driver.stores[this.options.table_name] = {};
 
-            if (callback) {
-                callback(null);
-            }
+            callback && callback(null);
 
             return this.$parent('clear', arguments);
         },
@@ -115,15 +122,14 @@ var jStore = jStore || {};
 
         remove:function (key, callback) {
             var keys = utils.toArray(key);
-            
+
             keys.forEach(function (element) {
                 localStorage.removeItem(this.prefix + element);
                 delete this.store[element];
             }.bind(this));
 
-            if (callback) {
-                callback(null);
-            }
+            callback && callback(null);
+
             return this.$parent('remove', arguments);
         },
 

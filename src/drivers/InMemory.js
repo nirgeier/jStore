@@ -38,9 +38,7 @@ var jStore = jStore || {};
         clear:function (callback) {
             logger.log('clear');
             this._storage = {};
-            if (callback) {
-                callback(null);
-            }
+            callback && callback(null);
             return this;
         },
 
@@ -119,9 +117,7 @@ var jStore = jStore || {};
                 delete $this._storage[$this.prefix + keyOrArray];
             }
 
-            if (callback) {
-                callback(null);
-            }
+            callback && callback(null);
             return this;
         },
 
