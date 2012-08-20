@@ -1,5 +1,5 @@
 describe("DomStorage", function () {
-    var prefix = "Chegg_test_",
+    var prefix = "Chegg_dom_",
         driver_const = jStore.drivers['DomStorage'],
         driver;
 
@@ -8,7 +8,7 @@ describe("DomStorage", function () {
         driver_const.stores = {};
 
         tests.getDriver = function () {
-            driver = new jStore.drivers['DomStorage']({table_name:"test", db_name:'Chegg'});
+            driver = new jStore.drivers['DomStorage']({table_name:"dom", db_name:'Chegg'});
             return driver;
         };
 
@@ -17,11 +17,10 @@ describe("DomStorage", function () {
         };
 
         tests.setValues = function (values, cb) {
-            var key, value;
+            var key;
             for (key in values) {
-                value = JSON.stringify(values[key]);
-                localStorage.setItem(prefix + key, value);
-                driver.store[key] = value;
+                localStorage.setItem(prefix + key, JSON.stringify(values[key]));
+                driver.store[key] = values[key];
             }
 
             cb && cb();

@@ -11,6 +11,7 @@
     <script src="../src/jStore.js"></script>
     <script src="../src/drivers/InMemory.js"></script>
     <script src="../src/drivers/DomStorage.js"></script>
+    <script src="../src/drivers/IndexedDB.js"></script>
 </head>
 <body>
 
@@ -18,10 +19,10 @@
     var driver, driver1;
 
     // getDriver method
-    driver = new jStore.drivers['InMemory']({table_name:"test", db_name: 'Chegg'});
-    driver1 = new jStore.drivers['DomStorage']({table_name:"test", db_name: 'Chegg'});
-    console.log('driver.getDriver [InMemory]: ', driver.name);
-    
+    driver = new jStore.drivers['IndexedDB']({
+        db_name:"Chegg_ereader",
+        table_name:"fonts"
+    });
 
     function printAll() {
         // Print all the records
@@ -30,76 +31,93 @@
         });
     }
 
-    // Set Key=value
-    driver.set('key', 'value');
-    driver.set('key1', 'value1');
-    driver.set('key2', 'value2');
+    function _callback() {
+        if (arguments[0]) {
+            console.trace();
+            console.log('Error:', arguments[0]);
+        } else if (arguments.length > 0) {
+            console.log('Reply:', arguments);
+        }
+    }
 
-    printAll();
+    driver.addEvent('dbopen', function () {
 
-    var arr1 = {};
-    // Add duplicate 'key' as key
-    arr1['key'] = 'arr0';
-    arr1['a1'] = 'arr1';
-    arr1['a2'] = 'arr2';
+        // Set Key=value
+        driver.set('key', 'value', _callback);
+        driver.set('key1', 'value1', _callback);
+        driver.set('key2', 'value2', _callback);
 
-    // Set Map
-    driver.set(arr1);
+        driver.get('key', _callback);
+        driver.get('key1', _callback);
+        driver.get('key2', _callback);
 
-    printAll();
+        printAll();
 
-    var json1 = {
-        a:'jsona',
-        b:'jsonb',
-        c:'jsonc'
-    };
+        var arr1 = [];
+        // Add duplicate 'key' as key
+        arr1.push({'arr1':'value'});
+        arr1.push({'arr2':'value'});
+        arr1.push({'arr3':'value'});
 
-    // Print all the data in the storage
-    printAll();
+        // Set Map
+        driver.set(arr1, _callback);
 
-    driver.set(json1);
+        driver.getAll(function (error, items) {
+            console.log('getAll: ', items);
+        });
 
-    // Check to exists and then remove and check again
-    driver.exists('key1', function (error, isExist) {
-        console.log('key1 exists: ', isExist);
+        // Get record
+        driver.get('arr1', _callback);
+        driver.get(['arr1', 'arr2', 'key1'], _callback);
+
+        driver.remove('arr1', _callback);
+        driver.remove(['arr2', 'key1'], _callback);
+
+        // Print all the data in the storage
+        printAll();
+
+        // Check to exists and then remove and check again
+        driver.exists('key1', function (error, isExist) {
+            console.log('key1 exists: ', isExist);
+        });
+
+        driver.getAll(function (error, items) {
+            console.log('getAll: ', items);
+        });
+
+        driver.getKeys(function (error, keys) {
+            console.log('getAll: ', keys);
+        });
+
+        // remove few records
+        driver.remove('a', function (error) {
+            console.log('remove [\'a\'] callback ');
+        });
+        driver.remove(['a', 'c', 'key1'], function (error) {
+            console.log('remove [\'a\', \'c\', \'key1\'] callback ');
+        });
+
+        // Check to exists and then remove and check again
+        driver.exists('key1', function (error, isExist) {
+            console.log('key1 exists: ', isExist);
+        });
+
+        driver.getAll(function (error, items) {
+            console.log('getAll: ', items);
+        });
+
+        driver.getKeys(function (error, keys) {
+            console.log('getAll: ', keys);
+        });
+
+        // Print all the data in the storage
+        printAll();
+
+        driver.clear();
+
+        // Print all the data in the storage
+        printAll();
     });
-
-    driver.getAll(function (error, items) {
-        console.log('getAll: ', items);
-    });
-
-    driver.getKeys(function (error, keys) {
-        console.log('getAll: ', keys);
-    });
-
-    // remove few records
-    driver.remove('a', function (error) {
-        console.log('remove [\'a\'] callback ');
-    });
-    driver.remove(['a', 'c', 'key1'], function (error) {
-        console.log('remove [\'a\', \'c\', \'key1\'] callback ');
-    });
-
-    // Check to exists and then remove and check again
-    driver.exists('key1', function (error, isExist) {
-        console.log('key1 exists: ', isExist);
-    });
-
-    driver.getAll(function (error, items) {
-        console.log('getAll: ', items);
-    });
-
-    driver.getKeys(function (error, keys) {
-        console.log('getAll: ', keys);
-    });
-
-    // Print all the data in the storage
-    printAll();
-
-    driver.clear();
-
-    // Print all the data in the storage
-    printAll();
 
 </script>
 

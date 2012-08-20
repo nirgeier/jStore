@@ -20,9 +20,10 @@ var jStore = jStore || {};
      * @constructor
      *
      * @param options - The options must contain the following parameters:
+     *                  required param is table_name, all other options are optional.
      * <pre><code>
      *   {
-     *     prefix : The prefix for the give component
+     *     table_name : The table name/prefix to use
      *   }
      *
      */
@@ -30,7 +31,6 @@ var jStore = jStore || {};
         Events.call(this);
         utils.Options.call(this);
         utils.Bind.call(this);
-
         this.setOptions(options);
     }
 
@@ -185,8 +185,6 @@ var jStore = jStore || {};
          * Any initialization code should be place here
          *
          * @method init
-         * @param options - Object for initialization.<br/>
-         *                  required param is table_name, all other options are optional.
          */
         init:function (options) {
         },
@@ -221,7 +219,7 @@ var jStore = jStore || {};
          * @method set
          * @param {String|Object} key      if string, will be used as a key name. If object, will be used
          *                                 as a key=>value map
-         * @param {String}        [value]  key value
+         * @param {String} [optional]      [value]  key value
          * @param {function}      [callback] will be called when action is done
          */
         set:function (keyOrMap, value, cb) {
@@ -261,7 +259,10 @@ var jStore = jStore || {};
 
     Driver.defaultOptions = {
         table_name:'',
-        db_name:''
+        db_name:'',
+        db_size:'',
+        table_name:'',
+        fields:[]
     };
 
     ns.Driver = Driver;

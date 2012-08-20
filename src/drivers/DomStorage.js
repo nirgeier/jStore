@@ -1,6 +1,7 @@
 var jStore = jStore || {};
 
 !function (ns, utils) {
+    
     /**
      * @module Driver.DomStorage
      */
@@ -9,9 +10,11 @@ var jStore = jStore || {};
         driver;
 
     /**
-     * This class is the implementation of InMemory storage.<br/>
-     * The InMemory storage store all the data as Object (JSON) as key:value.<br/>
-     * <br/>
+     * This driver is the implementation of DomStorage storage.<br/>
+     * The DomStorage storage store all the data as Object (JSON) as key:value.<br/>
+     * The driver also store all its key-value in local variable named store in order to improve performance.<br/>
+     * The above store object contain the parsed data so it can be used as soon as we get the value and no prase
+     * need to be done on the JSON data.
      *
      * TODO: Right now we have unknown memory limitation<br/>
      *
@@ -23,25 +26,29 @@ var jStore = jStore || {};
 
         name:'DomStorage',
 
-        init:function (options) {
-
+        init:function () {
             var keys;
 
             // Set the prefix for this storage
             this.prefix = this.options.db_name + '_' + this.options.table_name + '_';
 
+            localStorage.clear();
+            this.store = {};
+            driver.stores[this.prefix] = {}
+
             // Init the internal store object
-            if (!driver.stores[this.options.table_name]) {
-                driver.stores[this.options.table_name] = {};
+            if (!driver.stores[this.prefix]) {
+                driver.stores[this.prefix] = {};
             }
 
-            this.store = driver.stores[this.options.table_name];
+            this.store = driver.stores[this.prefix];
 
             // Load existing records from localStorage
             keys = Object.keys(localStorage);
             keys.forEach(function (key) {
                 if (key.indexOf(this.prefix) !== -1) {
-                    this.store[key.substr(this.prefix.length)] = localStorage[key];
+                    console.log(localStorage, localStorage[key]);
+                    this.store[key.substr(this.prefix.length)] = JSON.parse(localStorage[key]);
                 }
             }.bind(this));
 
@@ -72,7 +79,7 @@ var jStore = jStore || {};
             keys = Object.keys(this.store);
 
             keys.forEach(function (key) {
-                callback(null, key, JSON.parse(this.store[key]));
+                callback(null, key, this.store[key]);
             }.bind(this));
 
             return this.$parent('each', arguments);
@@ -91,25 +98,19 @@ var jStore = jStore || {};
             // check to see if the first argument is String or array
             if (Array.isArray(key)) {
                 key.forEach(function (element) {
-                    values[element] = JSON.parse(this.store[element]);
+                    values[element] = this.store[element];
                 }.bind(this));
                 callback(null, values);
             } else {
                 // return the required value
-                callback(null, JSON.parse(this.store[key]));
+                callback(null, this.store[key]);
             }
             return this.$parent('get', arguments);
         },
 
         getAll:function (callback) {
             logger.log('getAll');
-            var key, items = {};
-
-            for (key in this.store) {
-                items[key] = JSON.parse(this.store[key]);
-            }
-
-            callback(null, items);
+            callback(null, this.store);
             return this.$parent('getAll', arguments);
         },
 
@@ -143,14 +144,16 @@ var jStore = jStore || {};
                 map = key;
             }
 
+            // Check to see if user has passed value or callback as second parameter
+            if (typeof value === "function") {
+                callback = value;
+            }
+
             try {
                 for (prop in map) {
-                    logger.log('set String: ', this.prefix + prop, '=' + value);
-
-                    value = JSON.stringify(map[prop]);
-
-                    localStorage.setItem(this.prefix + prop, value);
-                    this.store[prop] = value;
+                    logger.log('set String: ', this.prefix + prop, '=' + map[prop]);
+                    localStorage.setItem(this.prefix + prop, JSON.stringify(map[prop]));
+                    this.store[prop] = map[prop];
                     keys.push(prop);
                 }
 
@@ -173,10 +176,11 @@ var jStore = jStore || {};
                     value = Math.random();
                 try {
                     localStorage.setItem(value, value);
+                    localStorage.removeItem(value);
                 } catch (e) {
                     success = false;
                 }
-                localStorage.removeItem(value);
+
                 return success;
             }();
         },
